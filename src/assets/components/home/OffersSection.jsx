@@ -3,6 +3,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import offerImg1 from "../../images/hotel60.jpeg";
 import offerImg2 from "../../images/hotel8.jpeg";
+import { Link } from "react-router-dom";
 
 const OffersSection = () => {
   useEffect(() => {
@@ -30,7 +31,7 @@ const OffersSection = () => {
           </p>
           <a
             href="#"
-            class="btn inline-block px-7 py-3 border-2 border-hazel text-white font-medium text-sm leading-snug uppercase  rounded-lg hover:bg-hazel focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+            className="inline-block px-7 py-3 border-2 border-[#5aa1c2] text-white font-medium text-sm leading-snug uppercase  rounded-lg hover:bg-[#5aa1c2] focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
           >
             Book Now
           </a>
@@ -48,7 +49,7 @@ const OffersSection = () => {
           </p>
           <a
             href="#"
-            class="btn inline-block px-7 py-3 border-2 border-hazel text-white font-medium text-sm leading-snug uppercase  rounded-lg hover:bg-hazel focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+            className="inline-block px-7 py-3 border-2 border-[#5aa1c2]  text-white font-medium text-sm leading-snug uppercase  rounded-lg hover:bg-[#5aa1c2] focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
           >
             Book Now
           </a>

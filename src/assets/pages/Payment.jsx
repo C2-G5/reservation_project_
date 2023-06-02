@@ -1,195 +1,206 @@
-import React from "react";
+import React, { useState } from "react";
 import hotelImg from "../images/hotel-placeholder.png";
 import paymentImg from "../images/hotel4.webp";
+import axios from "axios";
+
 const Payment = () => {
+  const [card_name, setCardName] = useState("");
+  const [card_number, setCardNumber] = useState("");
+  const [expiration_date, setExpirationDate] = useState("");
+  const [security_code, setSecurityCode] = useState("");
+
+  const handleNameChange = (e) => {
+    setCardName(e.target.value);
+  };
+
+  const handleCardNumberChange = (e) => {
+    setCardNumber(e.target.value);
+  };
+
+  const handleExpirationDateChange = (e) => {
+    setExpirationDate(e.target.value);
+  };
+  const handleSecurityCodeChange = (e) => {
+    setSecurityCode(e.target.value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = {
+      card_name,
+      card_number,
+      expiration_date,
+      security_code,
+    };
+    axios
+      .post("http://localhost:8000/submitpayment", formData)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    console.log(fullName, email, phoneNumber);
+  };
+
   return (
     <>
-      <div class="min-h-screen p-6 bg-gray-100 flex m-3">
-        <div class="container max-w-screen-lg mx-auto w-full ">
+      <div class="min-h-screen p-6 bg-gray-100 flex mt-5">
+        <div class="container max-w-screen-lg mx-auto w-full mt-5 ">
           <div>
-            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6 mt-5">
               <div class="grid gap-40 gap-y-2 text-sm lg:grid-cols-2">
-                <div class="">
-                  <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5 p-5">
-                    <div class="md:col-span-5 mb-5">
-                      <label for="">Full Name</label>
-                      <input
-                        type="text"
-                        name="full_name"
-                        id="full_name"
-                        class="h-10 border border-gray mt-1 rounded px-4 w-full bg-gray-50"
-                        value=""
-                      />
-                    </div>
-
-                    <div class="md:col-span-5 mb-5">
-                      <label for="email">Email Address</label>
-                      <input
-                        type="text"
-                        name="email"
-                        id="email"
-                        class="h-10 border border-gray  mt-1 rounded px-4 w-full bg-gray-50"
-                        value=""
-                        placeholder="email@domain.com"
-                      />
-                    </div>
-                    <div class="md:col-span-5 mb-5">
-                      <label for="phon_number">Phone Number</label>
-                      <input
-                        type="text"
-                        name="phon_number"
-                        id="phon_number"
-                        class="h-10 border border-gray mt-1 rounded px-4 w-full bg-gray-50"
-                        value=""
-                      />
-                    </div>
-                    <div class="md:col-span-3 mb-5">
-                      <label for="address">Address / Street</label>
-                      <input
-                        type="text"
-                        name="address"
-                        id="address"
-                        class="h-10 border border-gray mt-1 rounded px-4 w-full bg-gray-50"
-                        value=""
-                        placeholder=""
-                      />
-                    </div>
-
-                    <div class="md:col-span-2 mb-5">
-                      <label for="city">City</label>
-                      <input
-                        type="text"
-                        name="city"
-                        id="city"
-                        class="h-10 border border-gray mt-1 rounded px-4 w-full bg-gray-50"
-                        value=""
-                        placeholder=""
-                      />
-                    </div>
-
-                    <div class="md:col-span-2 mb-5">
-                      <label for="country">Country / region</label>
-                      <div class="h-10 bg-gray-50 flex border border-gray rounded items-center mt-1">
-                        <input
-                          name="country"
-                          id="country"
-                          placeholder="Country"
-                          class="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
-                          value=""
-                        />
-                        <button
-                          tabindex="-1"
-                          class="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
-                        >
-                          <svg
-                            class="w-4 h-4 mx-2 fill-current"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                          </svg>
-                        </button>
-                        <button
-                          tabindex="-1"
-                          for="show_more"
-                          class="text-black cursor-pointer outline-none focus:outline-none border-l  border-gray transition-all text-gray-300 hover:text-blue-600"
-                        >
-                          <svg
-                            class="w-4 h-4 mx-2 fill-current"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <polyline points="18 15 12 9 6 15"></polyline>
-                          </svg>
-                        </button>
+                <form onSubmit={handleSubmit}>
+                  <div class="min-w-screen min-h-screen  flex items-center justify-center px-5 pb-10 pt-16">
+                    <div
+                      class="w-full mx-auto rounded-lg bg-white shadow-lg p-5 text-gray-700"
+                      style={{ maxWidth: "600px" }}
+                    >
+                      <div class="w-full pt-1 pb-5">
+                        <div class="bg-[#5aa1c2] text-white overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg flex justify-center items-center">
+                          <i class="mdi mdi-credit-card-outline text-3xl"></i>
+                        </div>
                       </div>
-                    </div>
-
-                    <div class="md:col-span-2 mb-5">
-                      <label for="state">State / province</label>
-                      <div class="h-10 bg-gray-50 flex border border-gray rounded items-center mt-1">
-                        <input
-                          name="state"
-                          id="state"
-                          placeholder="State"
-                          class="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
-                          value=""
-                        />
-                        <button
-                          tabindex="-1"
-                          class="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
-                        >
-                          <svg
-                            class="w-4 h-4 mx-2 fill-current"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                          </svg>
-                        </button>
-                        <button
-                          tabindex="-1"
-                          for="show_more"
-                          class="cursor-pointer outline-none focus:outline-none border-l border-gray transition-all text-gray-300 hover:text-blue-600"
-                        >
-                          <svg
-                            class="w-4 h-4 mx-2 fill-current"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <polyline points="18 15 12 9 6 15"></polyline>
-                          </svg>
-                        </button>
+                      <div class="mb-10">
+                        <h1 class="text-center font-bold text-xl uppercase">
+                          Secure payment info
+                        </h1>
                       </div>
-                    </div>
-
-                    <div class="md:col-span-1 mb-5">
-                      <label for="zipcode">Zipcode</label>
-                      <input
-                        type="text"
-                        name="zipcode"
-                        id="zipcode"
-                        class="transition-all flex items-center h-10 border border-gray mt-1 rounded px-4 w-full bg-gray-50"
-                        placeholder=""
-                        value=""
-                      />
-                    </div>
-
-                    <div class="md:col-span-5 text-left mt-5">
-                      <div class="inline-flex items-start mt-5">
+                      <div class="mb-3 flex -mx-2">
+                        <div class="px-2">
+                          <label
+                            for="type1"
+                            class="flex items-center cursor-pointer"
+                          >
+                            <input
+                              type="radio"
+                              class="form-radio h-5 w-5 text-[#5aa1c2]"
+                              name="type"
+                              id="type1"
+                              checked
+                            />
+                            <img
+                              src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png"
+                              class="h-8 ml-3"
+                            />
+                          </label>
+                        </div>
+                        <div class="px-2">
+                          <label
+                            for="type2"
+                            class="flex items-center cursor-pointer"
+                          >
+                            <input
+                              type="radio"
+                              class="form-radio h-5 w-5 text-[#5aa1c2]"
+                              name="type"
+                              id="type2"
+                            />
+                            <img
+                              src="https://www.sketchappsources.com/resources/source-image/PayPalCard.png"
+                              class="h-8 ml-3"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label class="font-bold text-sm mb-2 ml-1">
+                          Name on card
+                        </label>
+                        <div>
+                          <input
+                            class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors"
+                            placeholder="John Smith"
+                            type="text"
+                            value={card_name}
+                            onChange={handleNameChange}
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label class="font-bold text-sm mb-2 ml-1">
+                          Card number
+                        </label>
+                        <div>
+                          <input
+                            class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors"
+                            placeholder="0000 0000 0000 0000"
+                            type="text"
+                            value={card_number}
+                            onChange={handleCardNumberChange}
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-3 -mx-2 flex items-end">
+                        <div class="px-2 w-1/2">
+                          <label class="font-bold text-sm mb-2 ml-1">
+                            Expiration date
+                          </label>
+                          <div>
+                            <select
+                              value={expiration_date}
+                              onChange={handleExpirationDateChange}
+                              class="form-select w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors cursor-pointer"
+                            >
+                              <option value="01">01 - January</option>
+                              <option value="02">02 - February</option>
+                              <option value="03">03 - March</option>
+                              <option value="04">04 - April</option>
+                              <option value="05">05 - May</option>
+                              <option value="06">06 - June</option>
+                              <option value="07">07 - July</option>
+                              <option value="08">08 - August</option>
+                              <option value="09">09 - September</option>
+                              <option value="10">10 - October</option>
+                              <option value="11">11 - November</option>
+                              <option value="12">12 - December</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="px-2 w-1/2">
+                          <select class="form-select w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors cursor-pointer">
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="mb-10">
+                        <label class="font-bold text-sm mb-2 ml-1">
+                          Security code
+                        </label>
+                        <div>
+                          <input
+                            class="w-32 px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors"
+                            placeholder="000"
+                            type="text"
+                            value={security_code}
+                            onChange={handleSecurityCodeChange}
+                          />
+                        </div>
+                      </div>
+                      <div>
                         <button
-                          type="button"
-                          className="flex items-end inline-block px-7 py-3 border-2 border-hazel text-black font-medium text-sm leading-snug uppercase
-                            rounded-lg hover:bg-hazel hover:text-white focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-                          data-mdb-ripple="true"
-                          data-mdb-ripple-color="light"
+                          type="submit"
+                          class="block w-full max-w-xs mx-auto bg-[#5aa1c2] hover:bg-[#5191af] focus:bg-[#5092b1] text-white rounded-lg px-3 py-3 font-semibold"
                         >
-                          Continue to checkout{" "}
+                          <i class="mdi mdi-lock-outline mr-1"></i> PAY NOW
                         </button>
                       </div>
                     </div>
                   </div>
-                </div>
+                </form>
+
                 <div
-                  class="grid gap-40 gap-y-2 text-sm  rounded rounded shadow-xl text-white"
+                  class="grid gap-40 gap-y-2 text-sm  rounded shadow-xl text-white"
                   style={{
                     backgroundImage: `url(${paymentImg})`,
                     backgroundPosition: "50%",

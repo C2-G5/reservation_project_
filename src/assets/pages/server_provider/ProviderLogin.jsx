@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const ProviderLogin = () => {
   return (
     <>
       <main className="w-full h-screen flex flex-col items-center justify-center px-4 bg-gray-50 ">
@@ -98,4 +98,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ProviderLogin;

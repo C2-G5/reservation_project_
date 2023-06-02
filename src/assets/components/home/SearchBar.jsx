@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import LocationMenue from "../HotelDetails/LocationMenu";
 const SearchBar = () => {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
@@ -47,32 +48,32 @@ const SearchBar = () => {
           width: "100%",
         }}
       >
-        <div class="flex items-center space-y-4 sm:space-y-0 sm:space-x-4 p-5">
-          <div>
+        <div class="flex flex-col sm:flex-row  md:flex-row  items-center space-y-4 md:space-y-0 md:space-x-4 sm:space-y-0 sm:space-x-4 p-5">
+          <div class="w-full sm:w-auto">
             <label for="check-in-date" class="text-white">
               Check-In Date
             </label>
             <input
               type="date"
               id="check-in-date"
-              class="inline-block m-2 w-32 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="m-2 w-full sm:w-32 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               value={checkInDate}
               onChange={handleCheckInDateChange}
             />
           </div>
-          <div>
+          <div class="w-full sm:w-auto">
             <label for="check-out-date" class="text-white">
               Check-Out Date
             </label>
             <input
               type="date"
               id="check-out-date"
-              class="inline-block m-2 w-32 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="m-2 w-full sm:w-32 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               value={checkOutDate}
               onChange={handleCheckOutDateChange}
             />
           </div>
-          <div>
+          <div class="w-full sm:w-auto">
             <label for="rooms" class="text-white">
               Rooms
             </label>
@@ -80,14 +81,14 @@ const SearchBar = () => {
               id="rooms"
               value={rooms}
               onChange={handleRoomsChange}
-              class="inline-block m-2 w-20 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="m-2 w-full sm:w-20 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
             </select>
           </div>
-          <div>
+          <div class="w-full sm:w-auto">
             <label for="guests" class="text-white">
               Guests
             </label>
@@ -95,18 +96,21 @@ const SearchBar = () => {
               id="guests"
               value={guests}
               onChange={handleGuestsChange}
-              class="inline-block m-2 w-20 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="m-2 w-full sm:w-20 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
             </select>
           </div>
+          <div>
+            <LocationMenue />
+          </div>
         </div>
 
         <button
           onClick={handleCheckAvailability}
-          class="bg-hazel hover:bg-hazell text-white py-5 px-4 mt-4 sm:mt-0 h-full mr-5  rounded-lg"
+          class="bg-[#5aa1c2] hover:bg-[#4d89a5] text-white py-5 px-4 mt-4 sm:mt-0 h-full mr-5  rounded-lg"
         >
           Check Availability
         </button>

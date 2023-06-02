@@ -16,14 +16,14 @@ const Navbar = () => {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a to="https://flowbite.com/" className="flex items-center">
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
+              HotelHub
             </span>
           </a>
           <div className="flex md:order-2">
             <Link to={"/login"}>
               <button
                 type="button"
-                className="text-white bg-hazel hover:bg-hazell focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white bg-[#5aa1c2] hover:bg-[#4e94b5] focus:ring-4 focus:outline-none focus:ring-[#5aa1c2]-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-[#5aa1c2]-600 dark:hover:bg-[#5aa1c2]-700 dark:focus:ring-[#5aa1c2]-800"
               >
                 Login
               </button>
@@ -63,8 +63,8 @@ const Navbar = () => {
                 <Link
                   to="/"
                   className={`block py-2 pl-3 pr-4 rounded md:p-0 ${
-                    location.pathname === "/" ? "text-hazel" : "text-black"
-                  } hover:text-hazel active:text-hazel`}
+                    location.pathname === "/" ? "text-[#5aa1c2]" : "text-black"
+                  } hover:text-[#5aa1c2] active:text-[#5aa1c2]`}
                 >
                   Home
                 </Link>
@@ -74,23 +74,23 @@ const Navbar = () => {
                   to="/aboutus"
                   className={`block py-2 pl-3 pr-4 rounded md:p-0 ${
                     location.pathname === "/aboutus"
-                      ? "text-hazel"
+                      ? "text-[#5aa1c2]"
                       : "text-black"
-                  } hover:text-hazel active:text-hazel`}
+                  } hover:text-[#5aa1c2] active:text-[#5aa1c2]`}
                 >
                   About
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/services"
+                  to="/hotelsprovider"
                   className={`block py-2 pl-3 pr-4 rounded md:p-0 ${
-                    location.pathname === "/services"
-                      ? "text-hazel"
+                    location.pathname === "/hotelsprovider"
+                      ? "text-[#5aa1c2]"
                       : "text-black"
-                  } hover:text-hazel active:text-hazel`}
+                  } hover:text-[#5aa1c2] active:text-[#5aa1c2]`}
                 >
-                  Services
+                  Hotels
                 </Link>
               </li>
               <li>
@@ -98,11 +98,23 @@ const Navbar = () => {
                   to="/contactus"
                   className={`block py-2 pl-3 pr-4 rounded md:p-0 ${
                     location.pathname === "/contactus"
-                      ? "text-hazel"
+                      ? "text-[#5aa1c2]"
                       : "text-black"
-                  } hover:text-hazel active:text-hazel`}
+                  } hover:text-[#5aa1c2] active:text-[#5aa1c2]`}
                 >
                   Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/providerlogin"
+                  className={`block py-2 pl-3 pr-4 rounded md:p-0 ${
+                    location.pathname === "/providerlogin"
+                      ? "text-[#5aa1c2]"
+                      : "text-black"
+                  } hover:text-[#5aa1c2] active:text-[#5aa1c2]`}
+                >
+                  Add Your Hotel
                 </Link>
               </li>
             </ul>
