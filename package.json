@@ -10,19 +10,31 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@mdi/js": "^7.2.96",
     "@mdi/react": "^1.6.1",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/lab": "^5.0.0-alpha.132",
+    "@mui/material": "^5.13.3",
+    "@mui/styled-engine-sc": "^5.12.0",
+    "@tailwindcss/typography": "^0.5.9",
     "aos": "^2.3.4",
+    "axios": "^1.4.0",
     "babel-plugin-macros": "^3.1.0",
+    "daisyui": "^3.0.0",
     "flowbite": "^1.6.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.9.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.11.2",
-    "react-tailwindcss-datepicker": "^1.6.1"
+    "react-tailwindcss-datepicker": "^1.6.1",
+    "styled-components": "^5.3.11",
+    "sweetalert2": "^11.7.10"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-const Signup = () => {
+const ProviderSignup = () => {
   return (
     <>
       <main className="w-full h-screen flex flex-col items-center justify-center bg-gray-50 sm:px-4">
@@ -111,4 +111,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ProviderSignup;

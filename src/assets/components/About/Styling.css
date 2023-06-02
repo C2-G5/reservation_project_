@@ -4,7 +4,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  height: 45rem;
+  height: 32rem;
   width: 100%;
 }
 .black-opictiy {
@@ -87,7 +87,7 @@ FindBestHotel
   font-size: 13px;
   display: block;
   margin-bottom: 5px;
-  color: #c5a880;
+  color: #5aa1c2;
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 2px;
@@ -98,8 +98,8 @@ FindBestHotel
   font-size: calc(1.375rem + 1.5vw);
 }
 .buttonBook {
-  background: #c5a880;
-  border: 1px solid #c5a880;
+  background: #5aa1c2;
+  border: 1px solid #5aa1c2;
   color: #fff;
   display: inline-block;
 }
@@ -129,14 +129,14 @@ AboutSection
 }
 .LLT-Icon,
 .LRB-Icon {
-  color: #c5a880;
+  color: #5aa1c2;
 }
 
 .R h5 {
   font-size: 13px;
   display: block;
   margin-bottom: 5px;
-  color: #c5a880;
+  color: #5aa1c2;
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 2px;
@@ -147,6 +147,9 @@ AboutSection
   line-height: 1.4;
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
+.formHeader {
+  font-family: "Quicksand", sans-serif;
+}
 .R p {
   font-size: 16px;
   line-height: 1.8;
@@ -156,8 +159,8 @@ AboutSection
 }
 
 .R a {
-  background: #c5a880;
-  border: 1px solid #c5a880;
+  background: #5aa1c2;
+  border: 1px solid #5aa1c2;
   color: #fff;
   display: inline-block;
   padding: 1.25rem 1rem;

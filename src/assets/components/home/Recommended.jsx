@@ -38,7 +38,7 @@ const Recommended = () => {
                   </p>
                   <a
                     href="#"
-                    class="text-black bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    class="text-black bg-blue hover:bg-blue focus:ring-4 focus:ring-blue font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Book now
                     <svg
@@ -79,7 +79,7 @@ const Recommended = () => {
                   </p>
                   <a
                     href="#"
-                    class="text-black bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    class="text-black bg-blue hover:bg-blue focus:ring-4 focus:ring-blue font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Book now
                     <svg
@@ -121,7 +121,7 @@ const Recommended = () => {
                   </p>
                   <a
                     href="#"
-                    class="text-black bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    class="text-black bg-blue hover:bg-blue focus:ring-4 focus:ring-blue font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Book now
                     <svg

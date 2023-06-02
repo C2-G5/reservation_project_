@@ -2,7 +2,7 @@ import { useState } from "react";
 import Icon from "@mdi/react";
 import { mdiCog } from "@mdi/js";
 
-function ProfilePage() {
+const Profile = () => {
   const [choise, setChoise] = useState("profilePage");
 
   return (
@@ -89,7 +89,7 @@ function ProfilePage() {
                 >
                   <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zM2 1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm0 8a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H2zm.854-3.646a.5.5 0 0 1-.708 0l-1-1a.5.5 0 1 1 .708-.708l.646.647 1.646-1.647a.5.5 0 1 1 .708.708l-2 2zm0 8a.5.5 0 0 1-.708 0l-1-1a.5.5 0 0 1 .708-.708l.646.647 1.646-1.647a.5.5 0 0 1 .708.708l-2 2zM7 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Booking</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">My Hotels</span>
               </a>
             </li>
 
@@ -178,7 +178,7 @@ function ProfilePage() {
             <>
               <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
                 <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-2 pb-4 relative">
-                  <span className="bg-clip-text uppercase">BOOKING</span>
+                  <span className="bg-clip-text uppercase">MY HOTELS</span>
                   <span className="absolute bottom-0 left-0 w-full h-1 bg-[#5aa1c2]"></span>
                 </h1>
 
@@ -299,6 +299,6 @@ function ProfilePage() {
       </div>
     </>
   );
-}
+};
 
-export default ProfilePage;
+export default Profile;
