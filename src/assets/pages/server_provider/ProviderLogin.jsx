@@ -1,11 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const ProviderLogin = () => {
+const Login = (props) => {
+  const navigate = useNavigate();
+  const [user, setUSer] = useState({
+    email: '',
+    password: '',
+  })
+  const [emailerror, setemailerror] = useState('')
+  const [passworderror, setpassworderror] = useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    axios.post('http://localhost:5500/api/auth/login', user)
+      .then((res) => {
+        if(res.data.error == 'Email is incorrect' || res.data.error == "incorrect password"){
+        res.data.error == 'Email is incorrect' ? setemailerror('Email is incorrect') : setemailerror('');
+        res.data.error == "incorrect password" ? setpassworderror("incorrect password") : setpassworderror('');
+      }else{
+        localStorage.setItem('token', JSON.stringify(res.data));
+        props.forceUpdate()
+        return navigate('/providerprofile')
+      }
+    })
+    
+  }
   return (
     <>
       <main className="w-full h-screen flex flex-col items-center justify-center px-4 bg-gray-50 ">
-        <form action="">
+        <form action="" onSubmit={(e) => handleSubmit(e)}>
           <div className="max-w-sm w-full text-black space-y-5 bg-white shadow p-5 py-6 sm:p-6 sm:rounded-lg ">
             <div className="text-center pb-8">
               <img src="" width={80} className="mx-auto" alt="Logo imag" />
@@ -26,7 +50,13 @@ const ProviderLogin = () => {
                   required
                   placeholder="your email"
                   className={`w-full mt-2 px-3 text-black py-2 bg-transparent outline-none border shadow-sm rounded-lg`}
+                  name="email"
+                  value={user.email}
+                  onChange={(e) => {
+                    setUSer({ ...user, [e.target.name]: e.target.value });
+                  }}
                 />
+                <span className="text-red-600">{emailerror}</span>
               </div>
               <div>
                 <label
@@ -41,9 +71,15 @@ const ProviderLogin = () => {
                   placeholder="password"
                   id="password"
                   className={`w-full mt-2 px-3 py-2 text-black bg-transparent outline-none border shadow-sm rounded-lg`}
+                  name="password"
+                  value={user.password}
+                  onChange={(e) => {
+                    setUSer({ ...user, [e.target.name]: e.target.value });
+                  }}
                 />
+                <span className="text-red-600">{passworderror}</span>
               </div>
-              <button className="w-full px-4 py-2 text-white font-medium bg-[#4e94b5] hover:bg-white hover:text-black border hover:border-black rounded-lg duration-150">
+              <button type="submit" className="w-full px-4 py-2 text-white font-medium bg-[#4e94b5] hover:bg-white hover:text-black border hover:border-black rounded-lg duration-150">
                 Sign in
               </button>
             </feConvolveMatrix>
@@ -98,4 +134,4 @@ const ProviderLogin = () => {
   );
 };
 
-export default ProviderLogin;
+export default Login;
