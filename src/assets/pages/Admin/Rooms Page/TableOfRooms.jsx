@@ -1,5 +1,38 @@
+
+import { useEffect , useState } from "react";
+import axios from "axios";
+
 export const TableOfRooms = () => {
-  return (
+const [rooms , setRooms] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:5500/admin/rooms/rooms")
+      .then((response) => {
+        setRooms(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
+
+  const tableRows = rooms.map((room) =>(
+    <tr key={room.room_id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+      <th
+        scope="row"
+        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      >
+        {room.number_of_room}
+      </th>
+
+      <td>{room.room_type}</td>
+      <td>{room.price}</td>
+      <td>{room.room_img}</td>
+      <td>{room.is_avaliable ? '🟢' : '🔴'}</td>
+
+    </tr>
+  ))
+return (
    <div className="mt-6">
     <h1 className="text-[30px] font-bold mb-3">Rooms</h1>
     <div className="relative overflow-x-auto rounded-2xl shadow-md">
@@ -11,33 +44,22 @@ export const TableOfRooms = () => {
               Room No
             </th>
             <th scope="col" className="px-6 py-3">
-              Hotel
+              type
             </th>
             <th scope="col" className="px-6 py-3">
-              Description
+              price
             </th>
             <th scope="col" className="px-6 py-3">
-              Availabilty
+              img
             </th>
             <th scope="col" className="px-6 py-3">
-              Imgs
+              is_available
             </th>
+            
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              101
-            </th>
-
-            <td>Amman</td>
-            <td>2 bed inside it with view</td>
-            <td>Yes ✔</td>
-            <td>🛏</td>
-          </tr>
+        {tableRows.length === 0 ? <div className="p-3 text-lg">There are no rooms</div> : tableRows }
          
         </tbody>
       </table>

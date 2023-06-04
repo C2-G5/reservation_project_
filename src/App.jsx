@@ -1,3 +1,4 @@
+import 'flowbite';
 import "./App.css";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect, useState, useReducer } from 'react'
@@ -59,8 +60,8 @@ function App() {
           <Nav />
           <Aside />
           <Routes>
-            <Route path="/" element={<DashBoard />} />
-            <Route path="/main" element={<Main />} />
+            <Route path="/" element={<DashBoard forceUpdate={forceUpdate}/>} />
+            <Route path="/main" element={<Main  />} />
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/users" element={<Users />} />
             <Route path="/rooms" element={<Rooms />} />

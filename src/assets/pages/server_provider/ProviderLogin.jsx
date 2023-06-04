@@ -120,7 +120,7 @@ const Login = (props) => {
               Don't have an account?
               <span className="ml-1">
                 <Link
-                  to={"/signup"}
+                  to={"/providersignup"}
                   className="font-medium text-[#4e94b5] hover:text-black hover:underline transition"
                 >
                   Sign up
