@@ -15,7 +15,7 @@ export default function SelectSmall() {
     <FormControl
       sx={{ m: 1, minWidth: 120, width: "75%" }}
       size="small"
-      className="bg-white rounded-3xl focus:border-black "
+      className="bg-white rounded-lg focus:border-black "
     >
       <InputLabel id="demo-select-small-label">City</InputLabel>
       <Select

@@ -22,6 +22,8 @@ import { Requests } from "./assets/pages/Admin/Requests Page/Requests";
 import ProviderLogin from "./assets/pages/server_provider/ProviderLogin";
 import ProviderSignup from "./assets/pages/server_provider/ProviderSignup";
 import Profile from "./assets/pages/server_provider/Profile";
+import HotelForm from "./assets/pages/server_provider/HotelForm";
+import Faq from "./assets/components/Footer/Faq";
 function App() {
   const user = "user";
   return (
@@ -56,6 +58,8 @@ function App() {
             <Route path="/providerlogin" element={<ProviderLogin />} />
             <Route path="/providersignup" element={<ProviderSignup />} />
             <Route path="/providerprofile" element={<Profile />} />
+            <Route path="/hotelform" element={<HotelForm />} />
+            <Route path="/faq" element={<Faq />} />
           </Routes>
           <Footer />
         </BrowserRouter>

@@ -8,7 +8,7 @@
   color: #101415;
 }
 .content-div:hover {
-  background-image: linear-gradient(to right, #89a7b5, #5c97b3),
+  background-image: linear-gradient(to right, #6fa1b8, #5c97b3),
     url("../src/assets/images/hotel-bg.jpeg");
 }
 
@@ -99,3 +99,5 @@
     padding-right: 0.75rem;
   }
 }
+
+/* ============================= */

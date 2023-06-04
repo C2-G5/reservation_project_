@@ -56,7 +56,7 @@ const SearchBar = () => {
             <input
               type="date"
               id="check-in-date"
-              class="m-2 w-full sm:w-32 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="m-2 w-full sm:w-32 py-1 px-2 border border-white-300  rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               value={checkInDate}
               onChange={handleCheckInDateChange}
             />
@@ -68,24 +68,24 @@ const SearchBar = () => {
             <input
               type="date"
               id="check-out-date"
-              class="m-2 w-full sm:w-32 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="m-2 w-full sm:w-32 py-1 px-2 border border-white-300  rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               value={checkOutDate}
               onChange={handleCheckOutDateChange}
             />
           </div>
           <div class="w-full sm:w-auto">
             <label for="rooms" class="text-white">
-              Rooms
+              Room type
             </label>
             <select
               id="rooms"
               value={rooms}
               onChange={handleRoomsChange}
-              class="m-2 w-full sm:w-20 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="m-2 w-full sm:w-20 py-1 px-2 border border-white-300  rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
+              <option value="1">Single</option>
+              <option value="2">Double</option>
+              <option value="3">Queen</option>
             </select>
           </div>
           <div class="w-full sm:w-auto">
@@ -96,7 +96,7 @@ const SearchBar = () => {
               id="guests"
               value={guests}
               onChange={handleGuestsChange}
-              class="m-2 w-full sm:w-20 py-1 px-2 border border-white-300 rounded-2xl focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              class="m-2 w-full sm:w-20 py-1 px-2 border border-white-300  rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="1">1</option>
               <option value="2">2</option>

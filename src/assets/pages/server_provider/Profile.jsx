@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Icon from "@mdi/react";
 import { mdiCog } from "@mdi/js";
+import HotelForm from "./HotelForm";
 
 const Profile = () => {
   const [choise, setChoise] = useState("profilePage");
@@ -176,74 +177,7 @@ const Profile = () => {
 
           {choise === "Booking" && (
             <>
-              <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
-                <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-2 pb-4 relative">
-                  <span className="bg-clip-text uppercase">MY HOTELS</span>
-                  <span className="absolute bottom-0 left-0 w-full h-1 bg-[#5aa1c2]"></span>
-                </h1>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-10">
-                  <div className="rounded overflow-hidden shadow-lg">
-                    <div className="relative">
-                      <img
-                        className="w-full"
-                        src="https://f.hubspotusercontent20.net/hubfs/3390327/WordPress-Table-Reservation-plugin-1000x562-1.jpg"
-                        alt="Sunset in the mountains"
-                      />
-                      <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
-                    </div>
-
-                    <div className="bg-white">
-                      <ul className="bg-white shadow overflow-hidden sm:rounded-md max-w-sm mx-auto">
-                        <li>
-                          <div className="px-4 py-5 sm:px-6">
-                            <div className="flex items-center justify-between">
-                              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                                Hotel name:
-                                <span className="text-[#5aa1c2]"> spy</span>
-                              </h3>
-                            </div>
-                            <div class="mt-4 flex items-center justify-between">
-                              <p class="text-sm font-medium text-black">
-                                Location:
-                                <span className="text-[#5aa1c2]"> zarqa</span>
-                              </p>
-                            </div>
-                            <div class="mt-4 flex items-center justify-between">
-                              <p class="text-sm font-medium text-black">
-                                Booking Date:
-                                <span className="text-[#5aa1c2]">
-                                  {" "}
-                                  31/05/2023
-                                </span>
-                              </p>
-                            </div>
-                            <div class="mt-4 flex items-center justify-between">
-                              <p class="text-sm font-medium text-black">
-                                Booking Date:
-                                <span className="text-[#5aa1c2]">
-                                  {" "}
-                                  30/06/2023
-                                </span>
-                              </p>
-                            </div>
-
-                            <div class="mt-4 flex items-center justify-between">
-                              <p class="text-sm font-medium text-black">
-                                People numder:
-                                <span className="text-[#5aa1c2]"> 5</span>
-                              </p>
-                            </div>
-                            <button class="bg-[#5aa1c2] text-white hover:bg-white hover:text-black border border-[#5aa1c2] font-bold py-2 px-4 rounded-lg transition mt-5">
-                              Delete
-                            </button>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <HotelForm />
             </>
           )}
 

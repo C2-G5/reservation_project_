@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
 import bookingImg from "../../images/booking1.png";
 import dealesImg from "../../images/handshake.png";
 import customerImg from "../../images/satisfaction.png";
