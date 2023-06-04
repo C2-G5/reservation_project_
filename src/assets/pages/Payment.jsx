@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import hotelImg from "../images/hotel-placeholder.png";
 import paymentImg from "../images/hotel4.webp";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Payment = () => {
   const [card_name, setCardName] = useState("");
@@ -23,26 +24,29 @@ const Payment = () => {
   const handleSecurityCodeChange = (e) => {
     setSecurityCode(e.target.value);
   };
-  const handleSubmit = (e) => {
+
+  function handleSubmit(e) {
     e.preventDefault();
+    console.log(card_name, card_number, expiration_date, security_code);
 
-    const formData = {
-      card_name,
-      card_number,
-      expiration_date,
-      security_code,
-    };
     axios
-      .post("http://localhost:8000/submitpayment", formData)
-      .then((response) => {
-        console.log(response.data);
+      .post("http://localhost:5500/payment", {
+        card_name: card_name,
+        card_number: card_number,
+        expiration_date: expiration_date,
+        security_code: security_code,
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      .then(function (response) {})
+      .catch(function (error) {});
+    console.log(card_name, card_number, expiration_date, security_code);
 
-    console.log(fullName, email, phoneNumber);
-  };
+    Swal.fire({
+      title: "Booking Confirmation",
+      text: "Payment submitted and room booked successfully!",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+  }
 
   return (
     <>
@@ -67,43 +71,7 @@ const Payment = () => {
                           Secure payment info
                         </h1>
                       </div>
-                      <div class="mb-3 flex -mx-2">
-                        <div class="px-2">
-                          <label
-                            for="type1"
-                            class="flex items-center cursor-pointer"
-                          >
-                            <input
-                              type="radio"
-                              class="form-radio h-5 w-5 text-[#5aa1c2]"
-                              name="type"
-                              id="type1"
-                              checked
-                            />
-                            <img
-                              src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png"
-                              class="h-8 ml-3"
-                            />
-                          </label>
-                        </div>
-                        <div class="px-2">
-                          <label
-                            for="type2"
-                            class="flex items-center cursor-pointer"
-                          >
-                            <input
-                              type="radio"
-                              class="form-radio h-5 w-5 text-[#5aa1c2]"
-                              name="type"
-                              id="type2"
-                            />
-                            <img
-                              src="https://www.sketchappsources.com/resources/source-image/PayPalCard.png"
-                              class="h-8 ml-3"
-                            />
-                          </label>
-                        </div>
-                      </div>
+
                       <div class="mb-3">
                         <label class="font-bold text-sm mb-2 ml-1">
                           Name on card
@@ -192,7 +160,7 @@ const Payment = () => {
                           type="submit"
                           class="block w-full max-w-xs mx-auto bg-[#5aa1c2] hover:bg-[#5191af] focus:bg-[#5092b1] text-white rounded-lg px-3 py-3 font-semibold"
                         >
-                          <i class="mdi mdi-lock-outline mr-1"></i> PAY NOW
+                          PAY NOW
                         </button>
                       </div>
                     </div>

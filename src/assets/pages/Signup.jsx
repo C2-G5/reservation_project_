@@ -1,7 +1,37 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const [newUser, setNewUSer] = useState({
+    name: '',
+    email: '',
+    password: '',
+    type: 'client'
+  })
+  const [error, seterror] = useState('')
+
+  function validateEmail(newUser) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(newUser.email);
+  }
+
+  function validatePassword(newUser) {
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    return passwordRegex.test(newUser.password);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    axios.post('http://localhost:5500/api/users', newUser)
+      .then((res) => {
+        res.data.error == 'email already exists try another one' ? seterror('email already exists try another one') : seterror('');
+        if (res.data == true) return navigate('/login')
+      })
+  }
+
+
   return (
     <>
       <main className="w-full h-screen flex flex-col items-center justify-center bg-gray-50 sm:px-4">
@@ -26,20 +56,26 @@ const Signup = () => {
             </div>
           </div>
           <div className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg">
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={(e) => handleSubmit(e)}>
               <div>
-                <label for="name" className={`block mb-2 text-sm font-medium `}>
+                <label htmlFor="name" className={`block mb-2 text-sm font-medium `}>
                   Full name
                 </label>
                 <input
                   type="text"
                   id="name"
+                  required
                   className={` w-full mt-2 px-3 py-2 text-black bg-transparent outline-none border shadow-sm rounded-lg`}
                   placeholder="Enter your name !"
+                  name="name"
+                  value={newUser.name}
+                  onChange={(e) => {
+                    setNewUSer({ ...newUser, [e.target.name]: e.target.value });
+                  }}
                 />
               </div>
               <div>
-                <label for="email" className={`block mb-2 text-sm font-medium`}>
+                <label htmlFor="email" className={`block mb-2 text-sm font-medium`}>
                   Email
                 </label>
                 <input
@@ -48,11 +84,22 @@ const Signup = () => {
                   id="email"
                   required
                   className={`w-full mt-2 px-3 py-2 text-black bg-transparent outline-none border shadow-sm rounded-lg`}
+                  name="email"
+                  value={newUser.email}
+                  onChange={(e) => {
+                    setNewUSer({ ...newUser, [e.target.name]: e.target.value });
+                  }}
                 />
+                {!validateEmail(newUser) && newUser.email !== "" && (
+                  <p className="text-red-600">
+                    Please enter a valid email address.
+                  </p>
+                )}
+                <span className="text-red-600">{error}</span>
               </div>
               <div>
                 <label
-                  for="password"
+                  htmlFor="password"
                   className={`block mb-2 text-sm font-medium`}
                 >
                   Password
@@ -63,9 +110,21 @@ const Signup = () => {
                   type="password"
                   required
                   className={`w-full mt-2 px-3 py-2 text-black bg-transparent outline-none border shadow-sm rounded-lg`}
+                  name="password"
+                  value={newUser.password}
+                  onChange={(e) => {
+                    setNewUSer({ ...newUser, [e.target.name]: e.target.value });
+                  }}
                 />
+                 {!validatePassword(newUser) && newUser.password !== "" && (
+                        <p className="text-red-600">
+                          Please enter a password that is at least 8 characters
+                          long and contains at least one lowercase letter, one
+                          uppercase letter, and one number.
+                        </p>
+                      )}
               </div>
-              <button className="w-full px-4 py-2 text-white font-medium bg-[#4e94b5] hover:bg-white hover:text-black border hover:border-black rounded-lg duration-150">
+              <button type="submit" className="w-full px-4 py-2 text-white font-medium bg-[#4e94b5] hover:bg-white hover:text-black border hover:border-black rounded-lg duration-150">
                 Create account
               </button>
             </form>

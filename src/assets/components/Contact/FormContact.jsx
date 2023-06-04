@@ -1,13 +1,47 @@
 import TypeofContact from "./TypeofContact";
-import React, { useEffect } from "react";
+import { useEffect, useRef,useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Link } from "react-router-dom";
+import emailjs from "@emailjs/browser";
 
 const FormContact = () => {
+
+  const [submitted, setSubmitted] = useState(false);
+  const form = useRef();
   useEffect(() => {
     AOS.init();
   }, []);
+  const sendEmail = (e) => {
+    setTimeout(() => {
+      setSubmitted(true);
+    }, 2000);
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_0xzkggn",
+        "template_gmzfip3",
+        form.current,
+        "ySXhwWkA6BxFhzPF1"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+  if (submitted) {
+    return (
+      <>
+        <div className="text-4xl text-center mt-5">Thank you!</div>
+        <div className="text-2xl text-center mb-8">We will be in touch soon.</div>
+      </>
+    );
+  }
+
   return (
     <>
       <section className="">
@@ -26,7 +60,12 @@ const FormContact = () => {
               Got a technical issue? Want to send feedback about a beta feature?
               Need details about our Business plan? Let us know.
             </p>
-            <form action="#" className="space-y-8">
+            <form
+              action="#"
+              className="space-y-8"
+              ref={form}
+              onSubmit={sendEmail}
+            >
               <div>
                 <label
                   htmlFor="email"
@@ -39,6 +78,7 @@ const FormContact = () => {
                   id="contact_email"
                   className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5  placeholder-gray-400  focus:ring-primary-500 focus:border-primary-500 shadow-sm-light"
                   placeholder="name@mail.com"
+                  name="user_email"
                   required
                 />
               </div>
@@ -54,6 +94,7 @@ const FormContact = () => {
                   id="contact_subject"
                   className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-gray-500 focus:border-gray-500   placeholder-gray-400  focus:ring-primary-500 focus:border-primary-500 "
                   placeholder="Let us know how we can help you"
+                  name="user_subject"
                   required
                 />
               </div>
@@ -69,6 +110,7 @@ const FormContact = () => {
                   rows="6"
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-gray-500 focus:border-gray-500   placeholder-gray-400  focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Leave a comment..."
+                  name="message"
                 ></textarea>
               </div>
               <button
