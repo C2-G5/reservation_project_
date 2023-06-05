@@ -25,9 +25,12 @@ import ProviderLogin from "./assets/pages/server_provider/ProviderLogin";
 import ProviderSignup from "./assets/pages/server_provider/ProviderSignup";
 import Profile from "./assets/pages/server_provider/Profile";
 import NotFoundPage from "./assets/pages/NotFoundPage";
+import NotAccessPage from './assets/pages/NotAccessPage'
 import axios from "axios";
 function App() {
   const [userType, setUserType] = useState('client');
+  const [userName, setUserName] = useState(false)
+  const [userEmail, setUserEmail] = useState('')
   const [reducer, forceUpdate] = useReducer((x) => x + 1, 0)
 
 
@@ -47,9 +50,11 @@ function App() {
       }
     })
       .then((res) => {
-        res.data.error == 'Null token' ? 
-        setUserType('client') :
-        setUserType(res.data.user_type)
+        res.data.error == 'Null token' ?
+          setUserType('client') :
+          setUserType(res.data.user_type)
+        setUserEmail(res.data.user_email)
+        setUserName(res.data.user_name)
       })
   }, [reducer])
 
@@ -60,20 +65,33 @@ function App() {
           <Nav />
           <Aside />
           <Routes>
-            <Route path="/" element={<DashBoard forceUpdate={forceUpdate}/>} />
-            <Route path="/main" element={<Main  />} />
+            <Route path="/" element={<DashBoard forceUpdate={forceUpdate} />} />
+            <Route path="/main" element={<Main />} />
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/users" element={<Users />} />
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/requests" element={<Requests />} />
             <Route path="*" element={<NotFoundPage />} />
+            {/* you don't have permission to access this resource */}
+            <Route path="/contactus" element={<NotAccessPage />} />
+            <Route path="/aboutus" element={<NotAccessPage />} />
+            <Route path="/login" element={<NotAccessPage />} />
+            <Route path="/signup" element={<NotAccessPage />} />
+            <Route path="/hotelsprovider" element={<NotAccessPage />} />
+            <Route path="/hoteldetails" element={<NotAccessPage />} />
+            <Route path="/payment" element={<NotAccessPage />} />
+            <Route path="/userprofile" element={<NotAccessPage />} />
+            <Route path="/providerlogin" element={<NotAccessPage />} />
+            <Route path="/providersignup" element={<NotAccessPage />} />
+            <Route path="/providerprofile" element={<NotAccessPage />} />
+            {/* you don't have permission to access this resource */}
           </Routes>
         </BrowserRouter>
       )}
       {userType == "client" && (
         <BrowserRouter>
           <ScrollToTop />
-          <Navbar />
+          <Navbar userName={userName} userEmail={userEmail} forceUpdate={forceUpdate} />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contactus" element={<ContactUs />} />
@@ -81,12 +99,20 @@ function App() {
             <Route path="/login" element={<Login forceUpdate={forceUpdate} />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/hotelsprovider" element={<HotelsProvider />} />
-            <Route path="/hoteldetails" element={<HotelDetails />} />
+            <Route path="/hoteldetails/:id" element={<HotelDetails />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/userprofile" element={<ProfilePage />} />
             <Route path="/providerlogin" element={<ProviderLogin forceUpdate={forceUpdate} />} />
             <Route path="/providersignup" element={<ProviderSignup />} />
             <Route path="*" element={<NotFoundPage />} />
+            {/* you don't have permission to access this resource */}
+            <Route path="/main" element={<NotAccessPage />} />
+            <Route path="/hotels" element={<NotAccessPage />} />
+            <Route path="/users" element={<NotAccessPage />} />
+            <Route path="/rooms" element={<NotAccessPage />} />
+            <Route path="/requests" element={<NotAccessPage />} />
+            <Route path="/providerprofile" element={<NotAccessPage />} />
+            {/* you don't have permission to access this resource */}
           </Routes>
           <Footer />
         </BrowserRouter>
@@ -97,7 +123,24 @@ function App() {
           <Routes>
             <Route path="/providerprofile" element={<Profile />} />
             <Route path="*" element={<NotFoundPage />} />
-            {/* <Route path="/providerprofile" element={<Profile />} /> */}
+            {/* you don't have permission to access this resource */}
+            <Route path="/contactus" element={<NotAccessPage />} />
+            <Route path="/aboutus" element={<NotAccessPage />} />
+            <Route path="/login" element={<NotAccessPage />} />
+            <Route path="/signup" element={<NotAccessPage />} />
+            <Route path="/hotelsprovider" element={<NotAccessPage />} />
+            <Route path="/hoteldetails" element={<NotAccessPage />} />
+            <Route path="/payment" element={<NotAccessPage />} />
+            <Route path="/userprofile" element={<NotAccessPage />} />
+            <Route path="/providerlogin" element={<NotAccessPage />} />
+            <Route path="/providersignup" element={<NotAccessPage />} />
+            <Route path="/main" element={<NotAccessPage />} />
+            <Route path="/hotels" element={<NotAccessPage />} />
+            <Route path="/users" element={<NotAccessPage />} />
+            <Route path="/rooms" element={<NotAccessPage />} />
+            <Route path="/requests" element={<NotAccessPage />} />
+            <Route path="/providerprofile" element={<NotAccessPage />} />
+            {/* you don't have permission to access this resource */}
           </Routes>
         </BrowserRouter>
       )}

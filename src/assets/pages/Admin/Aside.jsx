@@ -14,7 +14,6 @@ export const Aside = (props) => {
 
   function handleLogOut(){
     localStorage.clear()
-    navigate('/')
     props.forceUpdate()
   }
 
@@ -100,15 +99,14 @@ export const Aside = (props) => {
               )}
             </Link>
           </li>
-          <li onClick={handleLogOut}>
+          <a href="/" onClick={handleLogOut}>
             <span
-             
               className="flex items-center gap-2 p-2 cursor-pointer  w-full text-base font-medium text-white  rounded-lg transition duration-75 group hover:bg-[#5AA1C2] hover:text-black "
             >
               <FiLogOut />
               Logout
             </span>
-          </li>
+          </a>
         </ul>
       </div>
     </aside>
