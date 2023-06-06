@@ -28,6 +28,7 @@ import NotFoundPage from "./assets/pages/NotFoundPage";
 import NotAccessPage from './assets/pages/NotAccessPage'
 import Faq from "./assets/components/footer/Faq";
 import Terms from "./assets/components/footer/Terms";
+import { Message } from "./assets/pages/Admin/Meessages/Message";
 import axios from "axios";
 function App() {
   const [userType, setUserType] = useState('client');
@@ -73,6 +74,7 @@ function App() {
             <Route path="/main" element={<Main />} />
             <Route path="/hotels" element={<Hotels />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/Message" element={<Message />} />
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/requests" element={<Requests />} />
             <Route path="*" element={<NotFoundPage />} />

@@ -17,7 +17,7 @@ const Recommended = () => {
     axios
       .get(`http://localhost:5500/hotels`)
       .then((response) => {
-        const firstThreeHotels = response.data.slice(3, 6); // Extract the first three hotels
+        const firstThreeHotels = response.data.slice(0, 3); // Extract the first three hotels
         setHotel(firstThreeHotels);
         console.log(response);
       })

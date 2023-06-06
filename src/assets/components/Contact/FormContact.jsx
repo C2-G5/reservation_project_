@@ -1,37 +1,58 @@
 import TypeofContact from "./TypeofContact";
-import { useEffect, useRef,useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AOS from "aos";
+import axios from "axios";
 import "aos/dist/aos.css";
 import emailjs from "@emailjs/browser";
 
 const FormContact = () => {
 
   const [submitted, setSubmitted] = useState(false);
+  const [subjectContact, setSubjectContact] = useState("");
+  const [emailContact, setEmailContact] = useState("");
+  const [messagesContact, setMessagesContact] = useState("");
+
   const form = useRef();
   useEffect(() => {
     AOS.init();
   }, []);
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post("http://localhost:5500/contact", {
+        subjectContact,
+        emailContact,
+        messagesContact,
+      });
+      // Clear form fields or show success message
+      setSubjectContact("");
+      setEmailContact("");
+      setMessagesContact("");
+    } catch (error) {
+      console.error("Error submitting message:", error);
+      // Show error message or handle accordingly
+    }
     setTimeout(() => {
       setSubmitted(true);
     }, 2000);
     e.preventDefault();
 
-    emailjs
-      .sendForm(
-        "service_0xzkggn",
-        "template_gmzfip3",
-        form.current,
-        "ySXhwWkA6BxFhzPF1"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
+    // emailjs
+    //   .sendForm(
+    //     "service_0xzkggn",
+    //     "template_gmzfip3",
+    //     form.current,
+    //     "ySXhwWkA6BxFhzPF1"
+    //   )
+    //   .then(
+    //     (result) => {
+    //       console.log(result.text);
+    //     },
+    //     (error) => {
+    //       console.log(error.text);
+    //     }
+    //   );
   };
   if (submitted) {
     return (
@@ -80,6 +101,8 @@ const FormContact = () => {
                   placeholder="name@mail.com"
                   name="user_email"
                   required
+                  value={emailContact}
+                  onChange={(e) => setEmailContact(e.target.value)}
                 />
               </div>
               <div>
@@ -96,6 +119,8 @@ const FormContact = () => {
                   placeholder="Let us know how we can help you"
                   name="user_subject"
                   required
+                  value={subjectContact}
+                  onChange={(e) => setSubjectContact(e.target.value)}
                 />
               </div>
               <div className="sm:col-span-2">
@@ -111,6 +136,8 @@ const FormContact = () => {
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-gray-500 focus:border-gray-500   placeholder-gray-400  focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Leave a comment..."
                   name="message"
+                  value={messagesContact}
+                  onChange={(e) => setMessagesContact(e.target.value)}
                 ></textarea>
               </div>
               <button

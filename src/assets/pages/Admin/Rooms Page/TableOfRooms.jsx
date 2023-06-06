@@ -27,8 +27,11 @@ const [rooms , setRooms] = useState([]);
 
       <td>{room.room_type}</td>
       <td>{room.price}</td>
-      <td>{room.room_img}</td>
-      <td>{room.is_avaliable ? '🟢' : '🔴'}</td>
+      <td>{room.number_of_beds}</td>
+      <td>{room.floor_area}</td>
+      <td>{room.number_of_guests}</td>
+      <td>{room.room_img ? "😁" : "⛔"}</td>
+      <td>{room.is_available ? '🟢' : '🔴'}</td>
 
     </tr>
   ))
@@ -37,21 +40,31 @@ return (
     <h1 className="text-[30px] font-bold mb-3">Rooms</h1>
     <div className="relative overflow-x-auto rounded-2xl shadow-md">
         
-      <table className="w-full text-sm text-left text-gray-500   ">
+      <table className="w-full text-sm text-left text-gray-500 table-zebra  ">
         <thead className="text-xs text-white uppercase bg-[#222] ">
           <tr>
             <th scope="col" className="px-6 py-3">
               Room No
             </th>
             <th scope="col" className="px-6 py-3">
-              type
+              Room type
             </th>
             <th scope="col" className="px-6 py-3">
-              price
+              Price
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Beds
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Floor
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Guests
             </th>
             <th scope="col" className="px-6 py-3">
               img
             </th>
+         
             <th scope="col" className="px-6 py-3">
               is_available
             </th>

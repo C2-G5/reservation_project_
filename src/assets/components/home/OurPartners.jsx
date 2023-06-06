@@ -8,7 +8,7 @@ const OurPartners = () => {
     return (
         <div>
             <section class="bg-white dark:bg-gray-900">
-                <div class="py-4 lg:py-16 mx-auto max-w-screen-xl px-4">
+                <div class="py-4 lg:pb-16 mx-auto max-w-screen-xl px-4">
                     <h2 class="mb-2 lg:mb-16 font-sans text-4xl font-bold text-center text-gray-900 dark:text-white md:text-4xl">
                         Our Partners
                     </h2>

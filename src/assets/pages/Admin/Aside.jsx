@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SiHotelsdotcom, SiCircle } from "react-icons/si";
 import { MdLocalHotel } from "react-icons/md";
-import { FiUsers , FiLogOut } from "react-icons/fi";
+import { FiUsers, FiLogOut } from "react-icons/fi";
 import { CiInboxIn } from "react-icons/ci";
+import { AiFillMessage } from "react-icons/ai";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -12,7 +13,7 @@ export const Aside = (props) => {
   const [hotels, setHotels] = useState([]);
   const navigate = useNavigate()
 
-  function handleLogOut(){
+  function handleLogOut() {
     localStorage.clear()
     props.forceUpdate()
   }
@@ -32,11 +33,11 @@ export const Aside = (props) => {
 
   return (
     <aside
-      className="fixed top-0 left-1 z-50 w-64  h-screen pt-14 pb-1 transition-transform -translate-x-full  md:translate-x-0  "
+      className="fixed top-0 left-0 z-50 w-64  h-screen pt-[52px] pb-1 transition-transform -translate-x-full  md:translate-x-0  "
       aria-label="Sidenav"
       id="drawer-navigation"
     >
-      <div className="overflow-y-auto py-5 px-3 h-full bg-[#222] rounded-2xl">
+      <div className="overflow-y-auto py-5 px-3 h-full bg-[#222] ">
         <ul className="space-y-2">
           <li>
             <Link
@@ -84,7 +85,15 @@ export const Aside = (props) => {
               Users
             </Link>
           </li>
-
+          <li>
+            <Link
+              to="/Message"
+              className="flex items-center gap-2 p-2  w-full text-base font-medium text-white  rounded-lg transition duration-75 group hover:bg-[#5AA1C2] hover:text-black "
+            >
+              <AiFillMessage />
+              Messages
+            </Link>
+          </li>
           <li>
             <Link
               to="/requests"

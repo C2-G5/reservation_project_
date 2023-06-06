@@ -72,7 +72,7 @@ export const TableOfRequests = () => {
         <td className="px-4 py-3">{hotel.stars}⭐</td>
         <td className="px-4 py-3">{hotel.description}</td>
         <td className="px-4 py-3">{hotel.phonehotel}</td>
-        <td className="px-4 py-3">{hotel.imagehotel}</td>
+        <td className="px-4 py-3">{hotel.imagehotel ? "😊":"☕"}</td>
         <td className="px-4 py-3 flex items-center justify-end">
           <div
             id=""
@@ -109,7 +109,7 @@ export const TableOfRequests = () => {
         {/* Start coding here */}
         <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-zebra">
               <thead className="text-xs text-white uppercase bg-[#222] dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-4 py-3">
