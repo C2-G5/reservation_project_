@@ -1,93 +1,137 @@
 import React from "react";
-import{useParams} from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import { FaBed, FaHome } from "react-icons/fa"
-import { BiMoney } from "react-icons/bi"
-import { BsPeopleFill } from "react-icons/bs"
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { FaBed, FaHome } from "react-icons/fa";
+import { BiMoney } from "react-icons/bi";
+import { BsPeopleFill } from "react-icons/bs";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import axios from "axios"
-function HotelDetails() {
-  const [roomList, setRoom] = useState([])
+import axios from "axios";
+function HotelDetails(props) {
+  const [roomList, setRoom] = useState([]);
+  const [hotel, setHotel] = useState([]);
+  const [hotelId, setHotelId] = useState()
+  const navigat = useNavigate();
+  // const filteredRooms = roomList.filter((room) => room.hotel_id === id);
   const { id } = useParams();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5500/rooms/${id}`)
+      .get(`http://localhost:5500/hotels/${id}`)
       .then((response) => {
-        setRoom(response.data);
+        setHotel(response.data);
+        setHotelId(response.data[0].hotel_id)
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error.message);
       });
   }, [id]);
+  useEffect(() => {
+    if (hotelId) {
+      axios
+        .get(`http://localhost:5500/rooms/${hotelId}`)
+        .then((response) => {
+          setRoom(response.data);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  }, [hotelId])
+
+  function handleBookClick(id) {
+    props.userType == 'guest' ?
+      navigat('/login')
+      :
+      navigat(`/payment/${id}`)
+    console.log(id);
+  }
   return (
-    <div >
-
-
-      <h1 className="text-7xl font-bold font-serif md:text-6xl xl:text-7xl tracking-tight mt-28 ml-56 text-[#89a7b5]">
-        Book your Room right now <br />
-      </h1>
-      <div class="min-h-screen  flex justify-center items-center py-20">
-        <div class="md:px-4 md:grid md:grid-cols-2 lg:grid-cols-2 gap-24 space-y-4 mt-16 md:space-y-0">
-          {
-            roomList.map((room) => (
-              <>
-
-                <div class="max-w-4xl bg-white px-6 pt-6 pb-2 rounded-xl shadow-xl shadow-blue-200 transform hover:scale-105 transition duration-500">
-                  <h1 class="mb-3 text-xl font-bold text-[#89a7b5] uppercase">{room.room_type}</h1>
-                  <div class="relative w-full rounded-xl">
-                    <div class="w-full rounded-xl">
-                      {/* <Carousel/> */}
-                      <img class="w-full rounded-xl" src="https://i.pinimg.com/564x/c0/66/b7/c066b7db0be21f8684874c592ebbadd0.jpg" alt="Colors" />
-                    </div>
-                    <p class="absolute top-0 bg-yellow-200 text-gray-800 font-semibold py-4 px-3 rounded-br-lg rounded-tl-lg">{room.price} JOD per night</p>
-                  </div>
-                  <div class="my-4">
-                    <div class="flex space-x-1 items-center">
-                      {/* <span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </span> */}
-                      <BiMoney class="h-6 w-6 text-[#89a7b5] mb-1.5" />
-                      <p>{room.price} jod per night</p>
-                    </div>
-                    <div class="flex space-x-1 items-center">
-                      <span>
-                        <FaBed class="h-6 w-6 text-[#89a7b5] mb-1.5" />
-                        {/* <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg> */}
-                      </span>
-                      <p>Number of beds: {room.number_of_beds} beds</p>
-                    </div>
-                    <div class="flex space-x-1 items-center">
-                      <span>
-                        <BsPeopleFill class="h-6 w-6 text-[#89a7b5] mb-1.5" />
-                      </span>
-                      <p>Max_Guest: {room.number_of_guests}</p>
-                    </div>
-                    <div class="flex space-x-1 items-center">
-                      <span>
-                        {/* <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg> */}
-                        <FaHome class="h-6 w-6 text-[#89a7b5] mb-1.5" />
-                      </span>
-                      <p>Floor Area: {room.floor_area}m<sup>2</sup> </p>
-                    </div>
-                    <h5 class="mt-4 text-gray-800 text-lg font-bold cursor-pointer">Feauture: {room.descriptions}</h5>
-                    <button class="mt-4 text-xl w-full text-white bg-[#89a7b5] py-2 rounded-xl shadow-lg">Book Now</button>
-                  </div>
+    <>
+      <div>
+        <div className="bg-black p-8 sm:p-12 md:p-16 lg:p-20 mb-8 sm:mb-16 md:mb-24">
+          <div className="max-w-6xl p-6 mx-auto bg-black rounded-md mt-8 sm:mt-12">
+            {hotel.map((hotel) => (
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                <div className="flex flex-col leading-normal p-4 sm:p-6 md:p-8 lg:p-10">
+                  <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-100 dark:text-white mb-6 sm:mb-8 md:mb-10">
+                    {hotel.hotel_name}
+                  </h2>
+                  <p className="text-base sm:text-lg text-gray-100 dark:text-gray-400">
+                    {hotel.descriptions}
+                  </p>
+                  <p className="text-base sm:text-lg text-gray-100 dark:text-gray-400 mt-8">
+                    {hotel.city}
+                  </p>
                 </div>
-              </>
-            ))
 
-          }
+                <img
+                  className="object-cover w-full h-64 sm:h-80 md:h-96 lg:h-auto rounded-xl"
+                  src={hotel.imagehotel}
+                  alt=""
+                />
+              </div>
+            ))}
+          </div>
+        </div>
 
+        <div className="rounded-lg w-full flex justify-center mt-32 sm:mt-32 md:mt-20 lg:mt-5  ">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-2  gap-32 m-12 mx-auto">
+            {roomList.map((room) => (
+              <div class="max-w-sm mx-auto bg-white px-6 pt-6 pb-2 rounded-xl shadow-xl shadow-black-200 transform hover:scale-105 transition duration-500">
+                <h1 class="mb-3 text-xl font-bold text-[#89a7b5] uppercase">
+                  {room.room_type}
+                </h1>
+                <div class="relative w-full rounded-xl">
+                  <div class="w-full rounded-xl">
+                    {/* <Carousel/> */}
+                    <img
+                      class="w-full rounded-xl"
+                      src={room.room_img}
+                      alt="Colors"
+                    />
+                  </div>
+                  <p class="absolute top-0 bg-[#8dbbd0] text-gray-800 font-semibold py-4 px-3 rounded-br-lg rounded-tl-lg">
+                    {room.price} JOD per night
+                  </p>
+                </div>
+                <div class="my-4">
+                  <div class="flex space-x-1 items-center">
+                    <BiMoney class="h-6 w-6 text-[#89a7b5] mb-1.5" />
+                    <p>{room.price} jod per night</p>
+                  </div>
+                  <div class="flex space-x-1 items-center">
+                    <FaBed class="h-6 w-6 text-[#89a7b5] mb-1.5" />
+                    <p>Number of beds: {room.number_of_beds} beds</p>
+                  </div>
+                  <div class="flex space-x-1 items-center">
+                    <BsPeopleFill class="h-6 w-6 text-[#89a7b5] mb-1.5" />
+                    <p>Max_Guest: {room.number_of_guests}</p>
+                  </div>
+                  <div class="flex space-x-1 items-center">
+                    <FaHome class="h-6 w-6 text-[#89a7b5] mb-1.5" />
+                    <p>
+                      Floor Area: {room.floor_area}m<sup>2</sup>
+                    </p>
+                  </div>
+                  <hr className="mt-4" />
+                  <h5 class="mt-4 text-gray-800 text-md cursor-pointer">
+                    Feauture: {room.descriptions}
+                  </h5>
+                  <button
+                    onClick={() => handleBookClick(room.room_id)}
+                    class="mt-4 text-xl w-full text-black  border-2 border-black bg-white hover:bg-black hover:text-white py-2 rounded-xl shadow-lg"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -2,9 +2,17 @@ import { useState } from "react";
 import Icon from "@mdi/react";
 import { mdiCog } from "@mdi/js";
 import HotelForm from './HotelForm'
+import { useNavigate } from "react-router-dom";
 
-const Profile = () => {
-  const [choise, setChoise] = useState("profilePage");
+const Profile = (props) => {
+  const [choise, setChoise] = useState("profilePage"); 
+  const  userid  = props.userid
+  const navigate = useNavigate()
+  function handleLogOut(){
+    localStorage.clear()
+    navigate('/')
+    props.forceUpdate()
+  }
 
   return (
     <>
@@ -48,11 +56,11 @@ const Profile = () => {
               </span>
             </li>
             <li>
-              <a
+              <span
                 onClick={() => {
                   setChoise("profilePage");
                 }}
-                className="flex items-center p-2 text-white rounded-lg  hover:bg-[#5aa1c2]"
+                className="flex items-center p-2 text-white rounded-lg  hover:bg-[#5aa1c2] cursor-pointer"
               >
                 <svg
                   aria-hidden="true"
@@ -70,15 +78,15 @@ const Profile = () => {
                 <span className="flex-1 ml-3 whitespace-nowrap">
                   ProfilePage
                 </span>
-              </a>
+              </span>
             </li>
 
             <li>
-              <a
+              <span
                 onClick={() => {
                   setChoise("Booking");
                 }}
-                className="flex items-center p-2 text-white rounded-lg hover:bg-[#5aa1c2]"
+                className="flex items-center p-2 text-white rounded-lg hover:bg-[#5aa1c2] cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -91,25 +99,25 @@ const Profile = () => {
                   <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zM2 1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm0 8a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H2zm.854-3.646a.5.5 0 0 1-.708 0l-1-1a.5.5 0 1 1 .708-.708l.646.647 1.646-1.647a.5.5 0 1 1 .708.708l-2 2zm0 8a.5.5 0 0 1-.708 0l-1-1a.5.5 0 0 1 .708-.708l.646.647 1.646-1.647a.5.5 0 0 1 .708.708l-2 2zM7 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">My Hotels</span>
-              </a>
+              </span>
             </li>
 
             <li>
-              <a
+              <span
                 onClick={() => {
                   setChoise("sitings");
                 }}
-                className="flex items-center p-2 text-white rounded-lg hover:bg-[#5aa1c2]"
+                className="flex items-center p-2 text-white rounded-lg hover:bg-[#5aa1c2] cursor-pointer"
               >
                 <Icon path={mdiCog} size={1} />
                 <span className="flex-1 ml-3 whitespace-nowrap">sitings</span>
-              </a>
+              </span>
             </li>
 
-            <li>
-              <a
+            <li onClick={handleLogOut}>
+              <span
                 smooth="true"
-                className="flex items-center p-2 text-white rounded-lg hover:bg-[#5aa1c2]"
+                className="flex items-center p-2 text-white rounded-lg hover:bg-[#5aa1c2] cursor-pointer"
               >
                 <svg
                   aria-hidden="true"
@@ -125,7 +133,7 @@ const Profile = () => {
                   ></path>
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">Sign Out</span>
-              </a>
+              </span>
             </li>
           </ul>
         </div>
@@ -177,7 +185,7 @@ const Profile = () => {
 
           {choise === "Booking" && (
             <>
-             <HotelForm/> 
+              <HotelForm userid={userid}/>
             </>
           )}
 
