@@ -1,48 +1,50 @@
 import axios from "axios";
 import React, { useEffect, useState, useReducer } from "react";
 
-const RoomFormOnly = () => {
+const RoomhtmlFormOnly = (props) => {
   const [roomType, setRoomType] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
-  // const [roomImage, setRoomImage] = useState("");
   const [price, setPrice] = useState("");
+  const [bedNumber, setBedNumber] = useState("");
+  const [roomArea, setRoomArea] = useState("");
+  const [description, setDescription] = useState("");
+  const [guests, setGuests] = useState("");
+  const [reducer, htmlForceUpdate] = useReducer((x) => x + 1, 0);
   const [roomData, setRoomData] = useState([]);
-  const [reducer, forceUpdate] = useReducer((x) => x + 1, 0);
-  ///////////////////////////////////////////////////////////////////////////////////////
-  let [base64code, setbase64code] = useState();
-  // const onChange = e => {
-  //   const files = e.target.files;
-  //   const file = files[0];
-  //   getBase64(file);
-  //   console.log(base64code);
-  // };
-  // const onLoad = fileString => {
+  const [hotelId, setHotelId] = useState()
 
-  //   setbase64code(fileString);
-  // };
-  // const getBase64 = file => {
-  //   let reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onload = () => {
-  //     onLoad(reader.result);
-  //   };
-  // };
-  const onChange = (event) => {
-    const files = event.target.files;
-    const reader = new FileReader();
-  
-    reader.onloadend = () => {
-      const base64Strings = Array.from(files).map((file) => reader.result);
-      // Send the base64Strings to the backend for storage
-      setbase64code(base64Strings);
-    };
-  
-    Array.from(files).forEach((file) => reader.readAsDataURL(file));
-  };
   ///////////////////////////////////////////////////////////////////////////////////////
-  const handlePriceChange = (e) => {
-    setPrice(e.target.value);
+  const [base64code, setbase64code] = useState();
+  const onChange = e => {
+    const files = e.target.files;
+    const file = files[0];
+    getBase64(file);
+    console.log(base64code);
   };
+  const onLoad = fileString => {
+
+    setbase64code(fileString);
+  };
+  const getBase64 = file => {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      onLoad(reader.result);
+    };
+  };
+  // const onChange = (event) => {
+  //   const files = event.target.files;
+  //   const reader = new FileReader();
+
+  //   reader.onloadend = () => {
+  //     const base64Strings = Array.from(files).map((file) => reader.result);
+  //     // Send the base64Strings to the backend for storage
+  //     setbase64code(base64Strings);
+  //   };
+
+  //   Array.from(files).forEach((file) => reader.readAsDataURL(file));
+  // };
+  ///////////////////////////////////////////////////////////////////////////////////////
 
   const handleRoomTypeChange = (e) => {
     setRoomType(e.target.value);
@@ -50,31 +52,60 @@ const RoomFormOnly = () => {
   const handleRoomNumberChange = (e) => {
     setRoomNumber(e.target.value);
   };
-  // const handleRoomImageChange = (e) => {
-  //   setRoomImage(e.target.value);
-  // };
+  const handlePriceChange = (e) => {
+    setPrice(e.target.value);
+  };
+  const handleBedNumberChange = (e) => {
+    setBedNumber(e.target.value);
+  };
+  const handleRoomAreaChange = (e) => {
+    setRoomArea(e.target.value);
+  };
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+  const handleGuestsChange = (e) => {
+    setGuests(e.target.value);
+  };
 
-  function handleSubmit(e) {
+  useEffect(() => {
+    axios.get(`http://localhost:5500/rooms/hotelrooms/${props.userid}`).then((res) => {
+      setHotelId(res.data[0].hotel_id)
+      console.log(res.data);
+    });
+  }, [reducer])
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    e.target.reset()
-    forceUpdate();
+    // e.target.reset();
     axios
       .post("http://localhost:5500/rooms", {
-        roomType: roomType,
-        roomNumber: roomNumber,
-        roomImage: base64code,
+        room_type: roomType,
+        number_of_room: roomNumber,
         price: price,
+        number_of_beds: bedNumber,
+        floor_area: roomArea,
+        descriptions: description,
+        room_img: [base64code],
+        hotel_id: hotelId,
+        number_of_guests: guests
       })
-      .then(function (response) { })
-      .catch(function (error) { });
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    htmlForceUpdate();
   }
 
   useEffect(() => {
-    axios.get("http://localhost:5500/rooms").then((res) => {
-      setRoomData(res.data);
-      console.log(roomData);
-    });
-  }, [reducer]);
+    if (hotelId)
+      axios.get(`http://localhost:5500/rooms/provider/${hotelId}`).then((res) => {
+        setRoomData(res.data);
+        console.log(roomData);
+      });
+  }, [reducer, hotelId]);
 
   const deleteRoom = async (id) => {
     try {
@@ -105,7 +136,7 @@ const RoomFormOnly = () => {
           Room details
         </h2>
 
-        <htmlForm onSubmit={(e) => handleSubmit(e)}>
+        <form >
           <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
               <label class="text-black dark:text-gray-200" htmlFor="roomType">
@@ -159,6 +190,8 @@ const RoomFormOnly = () => {
                 type="number"
                 id="maxGuest"
                 min={1}
+                value={guests}
+                onChange={handleGuestsChange}
               />
             </div>
             <div>
@@ -170,6 +203,8 @@ const RoomFormOnly = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md  dark:text-gray-300 dark:border-gray-600 focus:border-[#5c97b3] dark:focus:border-[#5c97b3] focus:outline-none focus:ring"
                 type="number"
                 min={1}
+                value={bedNumber}
+                onChange={handleBedNumberChange}
               />
             </div>
             <div className="mt-3">
@@ -181,6 +216,8 @@ const RoomFormOnly = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md  dark:text-gray-300 dark:border-gray-600 focus:border-[#5c97b3] dark:focus:border-[#5c97b3] focus:outline-none focus:ring"
                 type="number"
                 min={1}
+                value={roomArea}
+                onChange={handleRoomAreaChange}
               />
             </div>
 
@@ -192,6 +229,8 @@ const RoomFormOnly = () => {
                 Description
               </label>
               <textarea
+                value={description}
+                onChange={handleDescriptionChange}
                 id="textarea"
                 type="textarea"
                 class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md  dark:text-gray-300 dark:border-gray-600 focus:border-[#5c97b3] dark:focus:border-[#5c97b3] focus:outline-none focus:ring"
@@ -221,15 +260,15 @@ const RoomFormOnly = () => {
                       class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                     >
                       <span class="">Upload a file</span>
-                      {base64code && (
-                        base64code.map((ele)=>{
-                          <img
-                          src={`data:image;base64${ele}`}
-                          width={"100px"}
-                        />
-                        })
-                       
-                      )}
+                      {/* {base64code && ( */}
+                      {/* base64code.map((ele) => { */}
+                      <img
+                        src={`data:image;base64${base64code}`}
+                        width={"100px"}
+                      />
+                      {/* }) */}
+
+                      {/* )} */}
                       <input
                         onChange={onChange}
                         id="file-upload"
@@ -240,7 +279,6 @@ const RoomFormOnly = () => {
                         multiple
                       />
                     </label>
-                    {/* <p class="pl-1 text-black">or drag and drop</p> */}
                   </div>
                   <p class="text-xs text-black">PNG, JPG, GIF up to 10MB</p>
                 </div>
@@ -250,13 +288,14 @@ const RoomFormOnly = () => {
 
           <div className="flex justify-end mt-6">
             <button
+              onClick={(e) => handleSubmit(e)}
               type="submit"
               class="px-6 py-2 leading-5 text-black transition-colors duration-200 transhtmlForm bg-[#5c97b3] rounded-md hover:bg-[#5188a1] focus:outline-none focus:bg-gray-600"
             >
               Add
             </button>
           </div>
-        </htmlForm>
+        </form>
       </section>
       <div className="card-container max-w-4xl p-6 mx-auto mt-20">
         {roomData.map((room) => (
@@ -295,4 +334,4 @@ const RoomFormOnly = () => {
   );
 };
 
-export default RoomFormOnly;
+export default RoomhtmlFormOnly;

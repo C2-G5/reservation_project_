@@ -1,14 +1,21 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+
 import hotelImg from "../images/hotel-placeholder.png";
 import paymentImg from "../images/hotel4.webp";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const Payment = () => {
+const Payment = (props) => {
   const [card_name, setCardName] = useState("");
   const [card_number, setCardNumber] = useState("");
   const [expiration_date, setExpirationDate] = useState("");
   const [security_code, setSecurityCode] = useState("");
+  const [roomPayInfo, setroomPayInfo] = useState([]);
+  const [hotelId, setHotelId] = useState("")
+  const { id } = useParams();
 
   const handleNameChange = (e) => {
     setCardName(e.target.value);
@@ -24,21 +31,54 @@ const Payment = () => {
   const handleSecurityCodeChange = (e) => {
     setSecurityCode(e.target.value);
   };
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5500/rooms/payment/${id}`)
+      .then((response) => {
+        setroomPayInfo(response.data);
+        setHotelId(response.data[0].hotel_id)
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, [id]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(card_name, card_number, expiration_date, security_code);
-
     axios
       .post("http://localhost:5500/payment", {
+        user_id: props.userid,
         card_name: card_name,
         card_number: card_number,
         expiration_date: expiration_date,
         security_code: security_code,
       })
-      .then(function (response) {})
-      .catch(function (error) {});
-    console.log(card_name, card_number, expiration_date, security_code);
+      .then(function (response) { })
+      .catch(function (error) { 
+        console.log(error.message);
+      });
+
+    axios
+      .post("http://localhost:5500/booking", {
+        user_id: props.userid,
+        room_id: id,
+        hotel_id: hotelId,
+        booking_date:'2024-05-10'
+      })
+      .then(function (response) { })
+      .catch(function (error) {
+        console.log(error.message);
+       });
+
+    axios
+      .put(`http://localhost:5500/rooms/booking/${id}`)
+      .then(function (response) {
+        console.log(response);
+       })
+      .catch(function (error) {
+        console.log(error.message);
+       });
+
 
     Swal.fire({
       title: "Booking Confirmation",
@@ -175,65 +215,51 @@ const Payment = () => {
                     backgroundRepeat: "no-repeat",
                   }}
                 >
-                  <div className=" bg-opacity-80 bg-black p-5">
-                    <div class="md:col-span-5 p-5">
-                      <h1>Order Summary</h1>
-                    </div>
+                  {roomPayInfo.map((pay) => (
+                    <div className=" bg-opacity-80 bg-black p-5">
+                      <div class="md:col-span-5 p-5">
+                        <h1>Order Summary</h1>
+                      </div>
 
-                    <div class="md:col-span-3 w-full">
-                      <img src={hotelImg} alt="hotel placeholder image"></img>
-                    </div>
+                      <div class="md:col-span-3 w-full">
+                        <img
+                          src={pay.room_img}
+                          alt="hotel placeholder image"
+                        ></img>
+                      </div>
 
-                    <div class="md:col-span-5">
-                      <table className="border-separate border-transparent p-4">
-                        <tr>
-                          <td>room type : </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td>No. of nights: </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td>Guests : </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td>Dates :</td>
-                          <td></td>
-                        </tr>
-                      </table>
-                    </div>
+                      <div class="md:col-span-5">
+                        <table className="border-separate border-transparent p-4">
+                          <tr>
+                            <td>room type : {pay.room_type}</td>
+                            <td></td>
+                          </tr>
 
-                    <div class="md:col-span-3 p-3 ">
-                      <hr />
-                    </div>
+                          <tr>
+                            <td>Guests : {pay.number_of_guests} </td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td>Total price : {pay.price}</td>
+                            <td></td>
+                          </tr>
+                        </table>
+                      </div>
 
-                    <div class="md:col-span-5">
-                      <table className="border-separate border-transparent p-4">
-                        <tr>
-                          <td>Subtotal : </td>
-                          <td></td>
-                        </tr>
-                        <tr>
-                          <td>Tax: </td>
-                          <td></td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="md:col-span-3 p-3">
-                      <hr />
-                    </div>
+                      <div class="md:col-span-3 p-3 ">
+                        <hr />
+                      </div>
 
-                    <div class="md:col-span-5 text-right">
-                      <table className="border-separate border-transparent p-4">
-                        <tr>
-                          <td>Total : </td>
-                          <td></td>
-                        </tr>
-                      </table>
+                      <div class="md:col-span-5 text-right">
+                        <table className="border-separate border-transparent p-4">
+                          <tr>
+                            <td>Total : {pay.price}</td>
+                            <td></td>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>

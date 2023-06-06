@@ -1,145 +1,108 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import hotel1 from "../../images/hotelBg.jpeg";
-import hotel2 from "../../images/hotel2.webp";
-import hotel3 from "../../images/hotel3.jpeg";
+import { useParams } from "react-router-dom";
+import { FaBed, FaHome } from "react-icons/fa";
+import { BiMoney } from "react-icons/bi";
+import { BsPeopleFill } from "react-icons/bs";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Recommended = () => {
+  const [hotel, setHotel] = useState([]);
+  const navigat = useNavigate();
+  const { id } = useParams();
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5500/hotels`)
+      .then((response) => {
+        const firstThreeHotels = response.data.slice(3, 6); // Extract the first three hotels
+        setHotel(firstThreeHotels);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, [id]);
+
   useEffect(() => {
     AOS.init();
   }, []);
 
+  function handleClick(id) {
+    navigat(`/hoteldetails/${id}`);
+    console.log(id);
+  }
   return (
     <>
       <div className="container mx-auto px-4 md:px-0">
         <div className="flex justify-center">
-          <h1 className="font-sans text-4xl font-bold">Homes guests love</h1>
+          <h1 className="font-sans text-4xl font-bold mt-40">
+            Homes guests love
+          </h1>
         </div>
-        <div class="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-2xl md:px-24">
-          <div
-            data-aos="fade-up-right"
-            class="bg-white shadow-md rounded-lg max-w-sm dark:bg-gray-800 m-5 inline-block"
-          >
-            <div class="max-w-2xl mx-auto">
-              <div class="bg-white shadow-md rounded-lg max-w-sm dark:bg-gray-800 ">
-                <a href="#">
-                  <img class="rounded-t-lg" src={hotel1} alt="" />
-                </a>
-                <div class="p-5">
+        <div className="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-2xl md:px-24">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3  gap-4 m-12 mx-auto">
+            {hotel.map((hotel) => (
+              <div className="max-w-2xl mx-auto">
+                <div className="bg-white shadow-md rounded-lg max-w-sm dark:bg-gray-800 ">
                   <a href="#">
-                    <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">
-                      Noteworthy technology acquisitions 2021
-                    </h5>
+                    <img
+                      className="rounded-t-lg max-h-56 w-[400px]"
+                      src={hotel.imagehotel}
+                      alt=""
+                      width={"100%"}
+                      style={{
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    />
                   </a>
-                  <p class="font-normal text-gray-700 mb-3 dark:text-gray-400">
-                    Here are the biggest enterprise technology acquisitions of
-                    2021 so far, in reverse chronological order.
-                  </p>
-                  <a
-                    href="#"
-                    class="text-black bg-blue hover:bg-blue focus:ring-4 focus:ring-blue font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Book now
-                    <svg
-                      class="-mr-1 ml-2 h-4 w-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
+                  <div className="p-5">
+                    <a href="#">
+                      <h5 className="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">
+                        {hotel.hotel_name}
+                      </h5>
+                    </a>
+                    <p
+                      className="font-normal text-gray-700 mb-3 dark:text-gray-400"
+                      style={{
+                        maxHeight: "3rem",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        "-webkit-line-clamp": "2",
+                        "-webkit-box-orient": "vertical",
+                      }}
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </a>
+                      {hotel.descriptions}
+                    </p>
+                    <button
+                      class="cta"
+                      onClick={() => handleClick(hotel.hotel_id)}
+                    >
+                      <span class="hover-underline-animation"> book now </span>
+                      <svg
+                        viewBox="0 0 46 16"
+                        height="10"
+                        width="30"
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="arrow-horizontal"
+                      >
+                        <path
+                          transform="translate(30)"
+                          d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                          data-name="Path 10"
+                          id="Path_10"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div
-            data-aos="fade-up"
-            class="bg-white shadow-md  rounded-lg max-w-sm dark:bg-gray-800 m-5 inline-block"
-          >
-            <div class="max-w-2xl mx-auto">
-              <div class="bg-white shadow-md  rounded-lg max-w-sm dark:bg-gray-800 ">
-                <a href="#">
-                  <img class="rounded-t-lg" src={hotel2} alt="" />
-                </a>
-                <div class="p-5">
-                  <a href="#">
-                    <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">
-                      Noteworthy technology acquisitions 2021
-                    </h5>
-                  </a>
-                  <p class="font-normal text-gray-700 mb-3 dark:text-gray-400">
-                    Here are the biggest enterprise technology acquisitions of
-                    2021 so far, in reverse chronological order.
-                  </p>
-                  <a
-                    href="#"
-                    class="text-black bg-blue hover:bg-blue focus:ring-4 focus:ring-blue font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Book now
-                    <svg
-                      class="-mr-1 ml-2 h-4 w-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            data-aos="fade-up-left"
-            class="bg-white shadow-md  rounded-lg max-w-sm dark:bg-gray-800 m-5 inline-block"
-          >
-            <div class="max-w-2xl mx-auto">
-              <div class="bg-white shadow-md  rounded-lg max-w-sm dark:bg-gray-800 ">
-                <a href="#">
-                  <img class="rounded-t-lg" src={hotel3} alt="" />
-                </a>
-                <div class="p-5">
-                  <a href="#">
-                    <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">
-                      Noteworthy technology acquisitions 2021
-                    </h5>
-                  </a>
-                  <p class="font-normal text-gray-700 mb-3 dark:text-gray-400">
-                    Here are the biggest enterprise technology acquisitions of
-                    2021 so far, in reverse chronological order.
-                  </p>
-                  <a
-                    href="#"
-                    class="text-black bg-blue hover:bg-blue focus:ring-4 focus:ring-blue font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Book now
-                    <svg
-                      class="-mr-1 ml-2 h-4 w-4"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
-const HotelFormOnly = () => {
+const HotelFormOnly = (props) => {
   const [hotelName, setHotelName] = useState("");
   const [phonNumber, setPhonNumber] = useState("");
-  const [hotelImage, sethotelImage] = useState("");
   const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
@@ -14,7 +14,7 @@ const HotelFormOnly = () => {
     const files = e.target.files;
     const file = files[0];
     getBase64(file);
-    console.log(base64code);
+    // console.log(base64code);
   };
   const onLoad = fileString => {
 
@@ -39,9 +39,6 @@ const HotelFormOnly = () => {
   const handlePhonNumberChange = (e) => {
     setPhonNumber(e.target.value);
   };
-  const handleHotelImageChange = (e) => {
-    sethotelImage(e.target.value);
-  };
   const handleCityChange = (e) => {
     setCity(e.target.value);
   };
@@ -51,19 +48,37 @@ const HotelFormOnly = () => {
 
   function handleSubmitt(e) {
     e.preventDefault();
-    console.log(roomType, roomNumber, roomImage, price);
-
-    axios
-      .post("http://localhost:5000/hotels", {
-        hotelName: hotelName,
-        phonNumber: phonNumber,
-        hotelImage: hotelImage,
-        description: description,
-        city: city,
-        rating: rating,
-      })
-      .then(function (response) { })
-      .catch(function (error) { });
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Please review and confirm the information you have provided",
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, create'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Done!',
+          'Your hotels had been created.',
+          'success'
+        )
+        axios
+          .post("http://localhost:5500/hotels", {
+            hotel_name: hotelName,
+            phoneHotel: phonNumber,
+            imageHotel: base64code,
+            descriptions: description,
+            city: city,
+            stars: rating,
+            user_id: props.userid
+          })
+          .then(function (response) {
+            props.forceUpdate()
+          })
+          .catch(function (error) { });
+      }
+    })
   }
   return (
     <section class="max-w-4xl p-6 mx-auto bg-white border-2 rounded-md shadow-md  mt-20">
@@ -140,7 +155,7 @@ const HotelFormOnly = () => {
               {[1, 2, 3, 4, 5].map((value) => (
                 <button
                   key={value}
-                  type="button" // Add type="button" attribute
+                  type="button"
                   className={`text-xl ${value <= rating ? "text-yellow-500" : "text-gray-300"
                     }`}
                   onClick={() => handleRatingChange(value)}
@@ -174,9 +189,8 @@ const HotelFormOnly = () => {
                     class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                   >
                     <span class="">Upload a file</span>
-                    {/* <img src={`data:image;base64${base64code}`} width={"100px"} /> */}
+                    <img src={`data:image;base64${base64code}`} width={"100px"} />
                     <input
-                      value={hotelImage}
                       onChange={onChange}
                       id="file-uploadd"
                       name="file-upload"
@@ -185,7 +199,6 @@ const HotelFormOnly = () => {
                       accept="image/*"
                     />
                   </label>
-                  {/* <p class="pl-1 text-black">or drag and drop</p> */}
                 </div>
                 <p class="text-xs text-black">PNG, JPG, GIF</p>
               </div>
