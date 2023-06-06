@@ -30,7 +30,7 @@ const AboutSection = () => {
               perfect accommodations for your trips.
             </p>
             <Link
-              to={"/"}
+              to={"/hotelsprovider"}
               className="inline-block px-7 py-3 border-2 border-[#5aa1c2] text-white font-medium text-sm leading-snug uppercase  rounded-lg hover:bg-[#5aa1c2] focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
             >
               Book Your Room Now
