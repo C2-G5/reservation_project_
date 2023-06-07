@@ -21,6 +21,7 @@ import { Hotels } from "./assets/pages/Admin/Providers Page/Hotels";
 import { Users } from "./assets/pages/Admin/Users Page/Users";
 import { Rooms } from "./assets/pages/Admin/Rooms Page/Rooms";
 import { Requests } from "./assets/pages/Admin/Requests Page/Requests";
+import { Trash } from "./assets/pages/Admin/Trash Page/Trash";
 import ProviderLogin from "./assets/pages/server_provider/ProviderLogin";
 import ProviderSignup from "./assets/pages/server_provider/ProviderSignup";
 import Profile from "./assets/pages/server_provider/Profile";
@@ -78,6 +79,7 @@ function App() {
             <Route path="/Message" element={<Message />} />
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/requests" element={<Requests />} />
+            <Route path="/trash" element={<Trash />} /> 
             <Route path="*" element={<NotFoundPage />} />
             {/* you don't have permission to access this resource */}
             <Route path="/contactus" element={<NotAccessPage />} />
