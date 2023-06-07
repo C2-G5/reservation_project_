@@ -81,7 +81,7 @@ const HotelFormOnly = (props) => {
     })
   }
   return (
-    <section class="max-w-4xl p-6 mx-auto bg-white border-2 rounded-md shadow-md  mt-20">
+    <section class="max-w-4xl p-6 mx-auto bg-white border-2 rounded-md shadow-md  ">
       <h1 class="text-xl font-bold text-black capitalize dark:text-black">
         Hotel details
       </h1>
@@ -151,7 +151,7 @@ const HotelFormOnly = (props) => {
           </div>
           <div>
             <div className="flex items-center">
-              <span className="mr-2">Rating: {rating}</span>
+              <span className="mr-2">{rating} Stars</span>
               {[1, 2, 3, 4, 5].map((value) => (
                 <button
                   key={value}
