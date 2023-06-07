@@ -1,14 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Icon from "@mdi/react";
 import { mdiCog } from "@mdi/js";
 import HotelForm from './HotelForm'
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Swal from 'sweetalert2/src/sweetalert2.js'
 
 const Profile = (props) => {
-  const [choise, setChoise] = useState("profilePage"); 
-  const  userid  = props.userid
+  const [choise, setChoise] = useState("profilePage");
+  const [userInfo, setUserInfo] = useState({})
+  const [newUser, setNewUSer] = useState({});
+  const [runef, setrunef] = useState(false);
+  const userid = props.userid
   const navigate = useNavigate()
-  function handleLogOut(){
+
+  useEffect(() => {
+    axios.get(`http://localhost:5500/api/users/${userid}`).then((res) => {
+      setUserInfo(res.data[0])
+      setNewUSer({
+        name: res.data[0].user_name,
+        email: res.data[0].user_email,
+        phone: res.data[0].user_phone,
+        gender: res.data[0].user_gender,
+      });
+    });
+  }, [runef])
+
+  function handelEdit(e) {
+    e.preventDefault()
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Your edit has been saved',
+      showConfirmButton: false,
+      timer: 1500
+    }).then(() => {
+      axios.put(`http://localhost:5500/api/users/${userid}`, newUser).then((res) => {
+      })
+    }).then(() => {
+      setChoise('profilePage')
+      setrunef(!runef)
+    })
+  }
+
+  function handleLogOut() {
     localStorage.clear()
     navigate('/')
     props.forceUpdate()
@@ -42,17 +77,17 @@ const Profile = (props) => {
 
       <aside
         id="default-sidebar"
-        className="fixed top-20 left-0 z-40 w-64 bg-gray-950 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 left-0 z-40 w-64 bg-gray-950 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
         <div
-          className="h-full px-3 py-4 overflow-y-auto"
+          className="h-full px-3 py-12 overflow-y-auto"
           style={{ backgroundColor: "black" }}
         >
           <ul className="space-y-2 font-medium">
             <li>
               <span className="flex-1 ml-3 whitespace-nowrap text-white font-bold uppercase">
-                My ProfilePage
+                My Profile Page
               </span>
             </li>
             <li>
@@ -76,7 +111,7 @@ const Profile = (props) => {
                   ></path>
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">
-                  ProfilePage
+                  Profile Page
                 </span>
               </span>
             </li>
@@ -98,7 +133,7 @@ const Profile = (props) => {
                 >
                   <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zM2 1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm0 8a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H2zm.854-3.646a.5.5 0 0 1-.708 0l-1-1a.5.5 0 1 1 .708-.708l.646.647 1.646-1.647a.5.5 0 1 1 .708.708l-2 2zm0 8a.5.5 0 0 1-.708 0l-1-1a.5.5 0 0 1 .708-.708l.646.647 1.646-1.647a.5.5 0 0 1 .708.708l-2 2zM7 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">My Hotels</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">My Hotel</span>
               </span>
             </li>
 
@@ -110,7 +145,7 @@ const Profile = (props) => {
                 className="flex items-center p-2 text-white rounded-lg hover:bg-[#5aa1c2] cursor-pointer"
               >
                 <Icon path={mdiCog} size={1} />
-                <span className="flex-1 ml-3 whitespace-nowrap">sitings</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">settings</span>
               </span>
             </li>
 
@@ -144,7 +179,7 @@ const Profile = (props) => {
           {choise === "profilePage" && (
             <>
               <h1 class="text-2xl md:text-3xl pl-2 my-10 border-l-4 text-black mt-10  font-sans font-bold border-[#5aa1c2] ">
-                PROFILEPage
+                PROFILE PAGE
               </h1>
               <div className="bg-white overflow-hidden mx-5 shadow rounded-lg border border-[#5aa1c2]">
                 <div className="border-t border-[#5aa1c2] px-4 py-5 sm:p-0">
@@ -153,28 +188,49 @@ const Profile = (props) => {
                       <dt className="text-sm font-medium text-black">
                         user name
                       </dt>
-                      <dd className="mt-1 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-2">
-                        essam
+                      <dd className="mt-1 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-1">
+                        {userInfo.user_name}
+                      </dd>
+                      <dd className="mt-1 pe-12 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-1 flex justify-end">
+                        <button onClick={() => setChoise("sitings")}>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                          </svg>
+                        </button>
                       </dd>
                     </div>
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-black">email</dt>
                       <dd className="mt-1 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-2">
-                        essam@gmail.com
+                        {userInfo.user_email}
                       </dd>
                     </div>
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-black">
                         Phone number
                       </dt>
-                      <dd className="mt-1 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-2">
-                        (+962) 786992500
+                      <dd className="mt-1 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-1">
+                        {userInfo.user_phone}
+                      </dd>
+                      <dd className="mt-1 pe-12 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-1 flex justify-end">
+                        <button onClick={() => setChoise("sitings")}>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                          </svg>
+                        </button>
                       </dd>
                     </div>
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-black">Gender</dt>
-                      <dd className="mt-1 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-2">
-                        Male
+                      <dd className="mt-1 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-1">
+                        {userInfo.user_gender}
+                      </dd>
+                      <dd className="mt-1 pe-12 text-sm text-[#5aa1c2] sm:mt-0 sm:col-span-1 flex justify-end">
+                        <button onClick={() => setChoise("sitings")}>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                          </svg>
+                        </button>
                       </dd>
                     </div>
                   </dl>
@@ -185,7 +241,7 @@ const Profile = (props) => {
 
           {choise === "Booking" && (
             <>
-              <HotelForm userid={userid}/>
+              <HotelForm userid={userid} />
             </>
           )}
 
@@ -201,32 +257,59 @@ const Profile = (props) => {
                   <div className="w-full space-y-6 sm:max-w-md">
                     <div className="text-center"></div>
                     <div className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg">
-                      <form className="space-y-5">
+                      <form className="space-y-5" onSubmit={(e) => handelEdit(e)}>
                         <div>
                           <label className="font-medium">New name</label>
                           <input
                             type="text"
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-[#5aa1c2] shadow-sm rounded-lg"
+                            name="name"
+                            value={newUser.name}
+                            onChange={(e) => {
+                              setNewUSer({ ...newUser, [e.target.name]: e.target.value });
+                            }}
                           />
                         </div>
                         <div>
-                          <label className="font-medium">New email</label>
+                          <label className="font-medium"> email</label>
                           <input
                             type="email"
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-[#5aa1c2] shadow-sm rounded-lg"
+                            name="email"
+                            value={newUser.email}
+                            onChange={(e) => {
+                              setNewUSer({ ...newUser, [e.target.name]: e.target.value });
+                            }}
+                            disabled
                           />
                         </div>
                         <div>
                           <label className="font-medium">New Phone</label>
                           <input
-                            type="password"
-                            required
+                            type="tel"
                             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-[#5aa1c2] shadow-sm rounded-lg"
+                            name="phone"
+                            value={newUser.phone}
+                            onChange={(e) => {
+                              setNewUSer({ ...newUser, [e.target.name]: e.target.value });
+                            }}
                           />
                         </div>
-                        <button className="w-full px-4 py-2 text-black font-medium bg-[#5aa1c2] hover:bg-[#5aa1c2]  rounded-lg duration-150">
+                        <div>
+                          <label className="font-medium">gender</label>
+                          <input
+                            type="text"
+                            className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-[#5aa1c2] shadow-sm rounded-lg"
+                            name="gender"
+                            value={newUser.gender}
+                            onChange={(e) => {
+                              setNewUSer({ ...newUser, [e.target.name]: e.target.value });
+                            }}
+                          />
+                        </div>
+                        <button type="submit" className="w-full px-4 py-2 text-black font-medium bg-[#5aa1c2] hover:bg-[#5aa1c2]  rounded-lg duration-150">
                           Submit edit
                         </button>
                       </form>
@@ -237,8 +320,8 @@ const Profile = (props) => {
               </div>
             </>
           )}
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   );
 };

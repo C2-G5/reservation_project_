@@ -31,7 +31,7 @@ import Terms from "./assets/components/footer/Terms";
 import { Message } from "./assets/pages/Admin/Meessages/Message";
 import axios from "axios";
 function App() {
-  const [userType, setUserType] = useState("client");
+  const [userType, setUserType] = useState("guest");
   const [userName, setUserName] = useState(false);
   const [userid, setUserid] = useState(false);
   const [userEmail, setUserEmail] = useState("");

@@ -14,11 +14,16 @@ const Payment = (props) => {
   const [security_code, setSecurityCode] = useState("");
   const [roomPayInfo, setroomPayInfo] = useState([]);
   const [hotelId, setHotelId] = useState("");
-  const { id } = useParams();
   const [pcardnumber, setCardnum] = useState("pvalidate");
   const [pcvc, setCardCVC] = useState("pvalidate");
   const [pholder, setholder] = useState("pvalidate");
   const [startDate, setStartDate] = useState(1659312000000);
+  const [day, setDay] = useState(null);
+  const [month, setMonth] = useState(null);
+  const [year, setYear] = useState(null);
+
+  const { id } = useParams();
+
   const handleNameChange = (e) => {
     setCardName(e.target.value);
   };
@@ -88,7 +93,7 @@ const Payment = (props) => {
           expiration_date: expiration_date,
           security_code: security_code,
         })
-        .then(function (response) {})
+        .then(function (response) { })
         .catch(function (error) {
           console.log(error.message);
         });
@@ -99,7 +104,7 @@ const Payment = (props) => {
           hotel_id: hotelId,
           booking_date: "2024-05-10",
         })
-        .then(function (response) {})
+        .then(function (response) { })
         .catch(function (error) {
           console.log(error.message);
         });
@@ -155,6 +160,7 @@ const Payment = (props) => {
                             class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors"
                             placeholder="John Smith"
                             type="text"
+                            required
                             value={card_name}
                             onChange={handleNameChange}
                           />
@@ -172,6 +178,7 @@ const Payment = (props) => {
                             class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors"
                             placeholder="0000 0000 0000 0000"
                             type="text"
+                            required
                             value={card_number}
                             onChange={handleCardNumberChange}
                           />
@@ -190,6 +197,7 @@ const Payment = (props) => {
                               selected={startDate}
                               onChange={(date) => setStartDate(date)}
                               dateFormat="MM/yyyy"
+                              required
                               showMonthYearPicker
                               className="border-2 border-gray-200 rounded-md w-full"
                             />
@@ -205,6 +213,7 @@ const Payment = (props) => {
                             class="w-32 px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors"
                             placeholder="000"
                             type="text"
+                            required
                             value={security_code}
                             onChange={handleSecurityCodeChange}
                           />
@@ -216,7 +225,13 @@ const Payment = (props) => {
                       <div>
                         <button
                           type="submit"
-                          class="block w-full max-w-xs mx-auto bg-[#5aa1c2] hover:bg-[#5191af] focus:bg-[#5092b1] text-white rounded-lg px-3 py-3 font-semibold"
+                          className={`block w-full max-w-xs mx-auto bg-[#5aa1c2]  focus:bg-[#5092b1] text-white rounded-lg px-3 py-3 font-semibold ${day === null && month === null && year === null
+                              ? "disabled"
+                              : "hover:bg-[#5191af]"
+                            }`}
+                          disabled={
+                            day === null && month === null && year === null
+                          }
                         >
                           PAY NOW
                         </button>
@@ -272,6 +287,56 @@ const Payment = (props) => {
                             <td>Total : {pay.price}</td>
                           </tr>
                         </table>
+                      </div>
+                      <div>
+                        <span>Reservation Date</span>
+                        <div>
+                          <select
+                            value={day}
+                            onChange={(e) => setDay(e.target.value)}
+                            className="border-2 border-gray-200 rounded-md text-black m-1"
+                          >
+                            <option value="">Day</option>
+                            {Array.from({ length: 31 }, (_, i) => i + 1).map(
+                              (day) => (
+                                <option key={day} value={day}>
+                                  {day}
+                                </option>
+                              )
+                            )}
+                          </select>
+
+                          <select
+                            value={month}
+                            onChange={(e) => setMonth(e.target.value)}
+                            className="border-2 border-gray-200 rounded-md text-black m-1"
+                          >
+                            <option value="">Month</option>
+                            {Array.from({ length: 12 }, (_, i) => i + 1).map(
+                              (month) => (
+                                <option key={month} value={month}>
+                                  {month}
+                                </option>
+                              )
+                            )}
+                          </select>
+
+                          <select
+                            value={year}
+                            onChange={(e) => setYear(e.target.value)}
+                            className="border-2 border-gray-200 rounded-md text-black m-1"
+                          >
+                            <option value="">Year</option>
+                            {Array.from(
+                              { length: 10 },
+                              (_, i) => i + new Date().getFullYear()
+                            ).map((year) => (
+                              <option key={year} value={year}>
+                                {year}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
                     </div>
                   ))}
