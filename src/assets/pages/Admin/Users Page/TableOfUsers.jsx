@@ -55,6 +55,8 @@ export const TableOfUsers = () => {
           {user.user_name}
         </th>
         <td className="px-4 py-3">{user.user_email}</td>
+        <td className="px-4 py-3">{user.user_gender}</td>
+        <td className="px-4 py-3">{user.user_phone}</td>
         <td className="px-4 py-3">{user.user_password}</td>
         <td className="px-4 py-3">{user.user_type}</td>
 
@@ -90,6 +92,12 @@ export const TableOfUsers = () => {
                   </th>
                   <th scope="col" className="px-4 py-3">
                     Email
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Gender
+                  </th>
+                  <th scope="col" className="px-4 py-3">
+                    Phone Number
                   </th>
                   <th scope="col" className="px-4 py-3">
                     Password

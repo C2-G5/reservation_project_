@@ -11,6 +11,7 @@ export const TableOfRequests = () => {
       .get("http://localhost:5500/admin/hotel/hotels/request")
       .then((response) => {
         setHotels(response.data);
+        forceUpdate();
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
