@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-
-import hotelImg from "../images/hotel-placeholder.png";
 import paymentImg from "../images/hotel4.webp";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Payment = (props) => {
   const [card_name, setCardName] = useState("");
@@ -14,9 +13,12 @@ const Payment = (props) => {
   const [expiration_date, setExpirationDate] = useState("");
   const [security_code, setSecurityCode] = useState("");
   const [roomPayInfo, setroomPayInfo] = useState([]);
-  const [hotelId, setHotelId] = useState("")
+  const [hotelId, setHotelId] = useState("");
   const { id } = useParams();
-
+  const [pcardnumber, setCardnum] = useState("pvalidate");
+  const [pcvc, setCardCVC] = useState("pvalidate");
+  const [pholder, setholder] = useState("pvalidate");
+  const [startDate, setStartDate] = useState(1659312000000);
   const handleNameChange = (e) => {
     setCardName(e.target.value);
   };
@@ -31,12 +33,29 @@ const Payment = (props) => {
   const handleSecurityCodeChange = (e) => {
     setSecurityCode(e.target.value);
   };
+
+  function cardNumber(string) {
+    let pattern = /^[0-9]{14}$/;
+    return pattern.test(string);
+  }
+
+  function cardCVC(string) {
+    let pattern = /^[0-9]{3}$/;
+    return pattern.test(string);
+  }
+
+  function nameHolder(string) {
+    let pattern = /^[a-zA-Z\s]*$/;
+    return pattern.test(string);
+  }
+
+  //
   useEffect(() => {
     axios
       .get(`http://localhost:5500/rooms/payment/${id}`)
       .then((response) => {
         setroomPayInfo(response.data);
-        setHotelId(response.data[0].hotel_id)
+        setHotelId(response.data[0].hotel_id);
       })
       .catch((error) => {
         console.log(error.message);
@@ -45,47 +64,62 @@ const Payment = (props) => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    axios
-      .post("http://localhost:5500/payment", {
-        user_id: props.userid,
-        card_name: card_name,
-        card_number: card_number,
-        expiration_date: expiration_date,
-        security_code: security_code,
-      })
-      .then(function (response) { })
-      .catch(function (error) { 
-        console.log(error.message);
+    //
+    if (!cardNumber(card_number)) {
+      setCardnum("pWrong");
+    }
+    if (!cardCVC(security_code)) {
+      setCardCVC("pWrong");
+    }
+    if (!nameHolder(card_name)) {
+      setholder("pWrong");
+    }
+    //
+    if (
+      cardNumber(card_number) &&
+      cardCVC(security_code) &&
+      nameHolder(card_name)
+    ) {
+      axios
+        .post("http://localhost:5500/payment", {
+          user_id: props.userid,
+          card_name: card_name,
+          card_number: card_number,
+          expiration_date: expiration_date,
+          security_code: security_code,
+        })
+        .then(function (response) {})
+        .catch(function (error) {
+          console.log(error.message);
+        });
+      axios
+        .post("http://localhost:5500/booking", {
+          user_id: props.userid,
+          room_id: id,
+          hotel_id: hotelId,
+          booking_date: "2024-05-10",
+        })
+        .then(function (response) {})
+        .catch(function (error) {
+          console.log(error.message);
+        });
+
+      axios
+        .put(`http://localhost:5500/rooms/booking/${id}`)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
+
+      Swal.fire({
+        title: "Booking Confirmation",
+        text: "Payment submitted and room booked successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
       });
-
-    axios
-      .post("http://localhost:5500/booking", {
-        user_id: props.userid,
-        room_id: id,
-        hotel_id: hotelId,
-        booking_date:'2024-05-10'
-      })
-      .then(function (response) { })
-      .catch(function (error) {
-        console.log(error.message);
-       });
-
-    axios
-      .put(`http://localhost:5500/rooms/booking/${id}`)
-      .then(function (response) {
-        console.log(response);
-       })
-      .catch(function (error) {
-        console.log(error.message);
-       });
-
-
-    Swal.fire({
-      title: "Booking Confirmation",
-      text: "Payment submitted and room booked successfully!",
-      icon: "success",
-      confirmButtonText: "OK",
-    });
+    }
   }
 
   return (
@@ -124,6 +158,9 @@ const Payment = (props) => {
                             value={card_name}
                             onChange={handleNameChange}
                           />
+                          <p className={pholder}>
+                            enter your fullname should contain no number{" "}
+                          </p>
                         </div>
                       </div>
                       <div class="mb-3">
@@ -138,47 +175,25 @@ const Payment = (props) => {
                             value={card_number}
                             onChange={handleCardNumberChange}
                           />
+                          <p className={pcardnumber}>
+                            your card number must has 14 valid digits
+                          </p>
                         </div>
                       </div>
                       <div class="mb-3 -mx-2 flex items-end">
-                        <div class="px-2 w-1/2">
+                        <div class="px-2 w-full">
                           <label class="font-bold text-sm mb-2 ml-1">
                             Expiration date
                           </label>
                           <div>
-                            <select
-                              value={expiration_date}
-                              onChange={handleExpirationDateChange}
-                              class="form-select w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors cursor-pointer"
-                            >
-                              <option value="01">01 - January</option>
-                              <option value="02">02 - February</option>
-                              <option value="03">03 - March</option>
-                              <option value="04">04 - April</option>
-                              <option value="05">05 - May</option>
-                              <option value="06">06 - June</option>
-                              <option value="07">07 - July</option>
-                              <option value="08">08 - August</option>
-                              <option value="09">09 - September</option>
-                              <option value="10">10 - October</option>
-                              <option value="11">11 - November</option>
-                              <option value="12">12 - December</option>
-                            </select>
+                            <DatePicker
+                              selected={startDate}
+                              onChange={(date) => setStartDate(date)}
+                              dateFormat="MM/yyyy"
+                              showMonthYearPicker
+                              className="border-2 border-gray-200 rounded-md w-full"
+                            />
                           </div>
-                        </div>
-                        <div class="px-2 w-1/2">
-                          <select class="form-select w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-[#5aa1c2] transition-colors cursor-pointer">
-                            <option value="2020">2020</option>
-                            <option value="2021">2021</option>
-                            <option value="2022">2022</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
-                            <option value="2026">2026</option>
-                            <option value="2027">2027</option>
-                            <option value="2028">2028</option>
-                            <option value="2029">2029</option>
-                          </select>
                         </div>
                       </div>
                       <div class="mb-10">
@@ -193,6 +208,9 @@ const Payment = (props) => {
                             value={security_code}
                             onChange={handleSecurityCodeChange}
                           />
+                          <p className={pcvc}>
+                            your card number must has 3 digits only
+                          </p>
                         </div>
                       </div>
                       <div>
@@ -225,6 +243,7 @@ const Payment = (props) => {
                         <img
                           src={pay.room_img}
                           alt="hotel placeholder image"
+                          className="rounded-2xl"
                         ></img>
                       </div>
 
@@ -232,16 +251,13 @@ const Payment = (props) => {
                         <table className="border-separate border-transparent p-4">
                           <tr>
                             <td>room type : {pay.room_type}</td>
-                            <td></td>
                           </tr>
 
                           <tr>
                             <td>Guests : {pay.number_of_guests} </td>
-                            <td></td>
                           </tr>
                           <tr>
                             <td>Total price : {pay.price}</td>
-                            <td></td>
                           </tr>
                         </table>
                       </div>
@@ -254,7 +270,6 @@ const Payment = (props) => {
                         <table className="border-separate border-transparent p-4">
                           <tr>
                             <td>Total : {pay.price}</td>
-                            <td></td>
                           </tr>
                         </table>
                       </div>

@@ -13,6 +13,9 @@ const Recommended = () => {
   const [hotel, setHotel] = useState([]);
   const navigat = useNavigate();
   const { id } = useParams();
+  const [showFullDescription, setShowFullDescription] = useState(
+    new Array(hotel.length).fill(false)
+  );
   useEffect(() => {
     axios
       .get(`http://localhost:5500/hotels`)
@@ -34,6 +37,12 @@ const Recommended = () => {
     navigat(`/hoteldetails/${id}`);
     console.log(id);
   }
+
+  const toggleDescription = (index) => {
+    const updatedDescription = [...showFullDescription];
+    updatedDescription[index] = !updatedDescription[index];
+    setShowFullDescription(updatedDescription);
+  };
   return (
     <>
       <div className="container mx-auto px-4 md:px-0">
@@ -44,41 +53,46 @@ const Recommended = () => {
         </div>
         <div className="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-2xl md:px-24">
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3  gap-4 m-12 mx-auto">
-            {hotel.map((hotel) => (
+            {hotel.map((hotel, index) => (
               <div className="max-w-2xl mx-auto">
                 <div className="bg-white shadow-md rounded-lg max-w-sm dark:bg-gray-800 ">
-                  <a href="#">
-                    <img
-                      className="rounded-t-lg max-h-56 w-[400px]"
-                      src={hotel.imagehotel}
-                      alt=""
-                      width={"100%"}
-                      style={{
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat",
-                      }}
-                    />
-                  </a>
+                  <img
+                    className="rounded-t-lg max-h-56 w-[400px] "
+                    src={hotel.imagehotel}
+                    alt=""
+                    width={"100%"}
+                    style={{
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  />
                   <div className="p-5">
                     <a href="#">
                       <h5 className="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">
                         {hotel.hotel_name}
                       </h5>
                     </a>
-                    <p
-                      className="font-normal text-gray-700 mb-3 dark:text-gray-400"
-                      style={{
-                        maxHeight: "3rem",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        display: "-webkit-box",
-                        "-webkit-line-clamp": "2",
-                        "-webkit-box-orient": "vertical",
-                      }}
-                    >
-                      {hotel.descriptions}
-                    </p>
+                    <h5 className="mt-4 text-gray-700 text-md cursor-pointer mb-8">
+                      {showFullDescription[index] ? (
+                        <span>{hotel.descriptions}</span>
+                      ) : (
+                        <span>{hotel.descriptions.substring(0, 100)}</span>
+                      )}
+                      {!showFullDescription[index] && (
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault(); // Prevent the default link behavior
+                            toggleDescription(index);
+                          }}
+                          className="read-more p-2 text-blue-500"
+                        >
+                          Read More
+                        </a>
+                      )}
+                    </h5>
+
                     <button
                       class="cta"
                       onClick={() => handleClick(hotel.hotel_id)}
