@@ -72,7 +72,7 @@ function HotelsProvider() {
                     <div className="bg-white shadow-md  rounded-lg max-w-sm dark:bg-gray-800">
                       <div className="">
                         <img
-                          className="rounded-t-lg max-h-56 w-[400px]"
+                          className="rounded-t-lg max-h-48 w-[400px] "
                           src={hotel.imagehotel}
                           alt=""
                           width={"100%"}

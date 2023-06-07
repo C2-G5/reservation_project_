@@ -1,7 +1,7 @@
-import 'flowbite';
+import "flowbite";
 import "./App.css";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect, useState, useReducer } from 'react'
+import { useEffect, useState, useReducer } from "react";
 import Navbar from "./assets/layouts/Navbar";
 import Footer from "./assets/layouts/Footer";
 import AboutUs from "./assets/pages/AboutUs";
@@ -25,18 +25,17 @@ import ProviderLogin from "./assets/pages/server_provider/ProviderLogin";
 import ProviderSignup from "./assets/pages/server_provider/ProviderSignup";
 import Profile from "./assets/pages/server_provider/Profile";
 import NotFoundPage from "./assets/pages/NotFoundPage";
-import NotAccessPage from './assets/pages/NotAccessPage'
+import NotAccessPage from "./assets/pages/NotAccessPage";
 import Faq from "./assets/components/footer/Faq";
 import Terms from "./assets/components/footer/Terms";
 import { Message } from "./assets/pages/Admin/Meessages/Message";
 import axios from "axios";
 function App() {
-  const [userType, setUserType] = useState('client');
-  const [userName, setUserName] = useState(false)
-  const [userid, setUserid] = useState(false)
-  const [userEmail, setUserEmail] = useState('')
-  const [reducer, forceUpdate] = useReducer((x) => x + 1, 0)
-
+  const [userType, setUserType] = useState("client");
+  const [userName, setUserName] = useState(false);
+  const [userid, setUserid] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [reducer, forceUpdate] = useReducer((x) => x + 1, 0);
 
   const ScrollToTop = () => {
     const { pathname } = useLocation();
@@ -48,20 +47,22 @@ function App() {
     return null;
   };
   useEffect(() => {
-    axios.get("http://localhost:5500/api/auth/userType", {
-      headers: {
-        'authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}` || null
-      }
-    })
-      .then((res) => {
-        res.data.error == 'Null token' ?
-          setUserType('guest') :
-          setUserType(res.data.user_type)
-        setUserEmail(res.data.user_email)
-        setUserid(res.data.user_id)
-        setUserName(res.data.user_name)
+    axios
+      .get("http://localhost:5500/api/auth/userType", {
+        headers: {
+          authorization:
+            `Bearer ${JSON.parse(localStorage.getItem("token"))}` || null,
+        },
       })
-  }, [reducer])
+      .then((res) => {
+        res.data.error == "Null token"
+          ? setUserType("guest")
+          : setUserType(res.data.user_type);
+        setUserEmail(res.data.user_email);
+        setUserid(res.data.user_id);
+        setUserName(res.data.user_name);
+      });
+  }, [reducer]);
 
   return (
     <>
@@ -102,12 +103,21 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/contactus" element={<ContactUs />} />
             <Route path="/aboutus" element={<AboutUs />} />
-            <Route path="/login" element={<Login forceUpdate={forceUpdate} />} />
+            <Route
+              path="/login/:id"
+              element={<Login forceUpdate={forceUpdate} />}
+            />
             <Route path="/signup" element={<Signup />} />
             <Route path="/hotelsprovider" element={<HotelsProvider />} />
-            <Route path="/hoteldetails/:id" element={<HotelDetails userType={userType} />} />
+            <Route
+              path="/hoteldetails/:id"
+              element={<HotelDetails userType={userType} />}
+            />
             <Route path="/userprofile" element={<ProfilePage />} />
-            <Route path="/providerlogin" element={<ProviderLogin forceUpdate={forceUpdate} />} />
+            <Route
+              path="/providerlogin"
+              element={<ProviderLogin forceUpdate={forceUpdate} />}
+            />
             <Route path="/providersignup" element={<ProviderSignup />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/faq" element={<Faq />} />
@@ -128,13 +138,20 @@ function App() {
       {userType == "client" && (
         <BrowserRouter>
           <ScrollToTop />
-          <Navbar userName={userName} userEmail={userEmail} forceUpdate={forceUpdate} />
+          <Navbar
+            userName={userName}
+            userEmail={userEmail}
+            forceUpdate={forceUpdate}
+          />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contactus" element={<ContactUs />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/hotelsprovider" element={<HotelsProvider />} />
-            <Route path="/hoteldetails/:id" element={<HotelDetails userType={userType} />} />
+            <Route
+              path="/hoteldetails/:id"
+              element={<HotelDetails userType={userType} />}
+            />
             <Route path="/payment/:id" element={<Payment userid={userid} />} />
             <Route path="/userprofile" element={<ProfilePage />} />
             <Route path="*" element={<NotFoundPage />} />
@@ -143,7 +160,7 @@ function App() {
             {/* you don't have permission to access this resource */}
             <Route path="/providerlogin" element={<NotAccessPage />} />
             <Route path="/providersignup" element={<NotAccessPage />} />
-            <Route path="/login" element={< NotAccessPage />} />
+            <Route path="/login" element={<NotAccessPage />} />
             <Route path="/signup" element={<NotAccessPage />} />
             <Route path="/main" element={<NotAccessPage />} />
             <Route path="/hotels" element={<NotAccessPage />} />
@@ -160,7 +177,10 @@ function App() {
         <BrowserRouter>
           <ScrollToTop />
           <Routes>
-            <Route path="/providerprofile" element={<Profile userid={userid} forceUpdate={forceUpdate} />} />
+            <Route
+              path="/providerprofile"
+              element={<Profile userid={userid} forceUpdate={forceUpdate} />}
+            />
             <Route path="*" element={<NotFoundPage />} />
             {/* you don't have permission to access this resource */}
             <Route path="/contactus" element={<NotAccessPage />} />

@@ -5,12 +5,13 @@ import { FaBed, FaHome } from "react-icons/fa";
 import { BiMoney } from "react-icons/bi";
 import { BsPeopleFill } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaStar } from "react-icons/fa"; // Import the star icon from react-icons
 
 import axios from "axios";
 function HotelDetails(props) {
   const [roomList, setRoom] = useState([]);
   const [hotel, setHotel] = useState([]);
-  const [hotelId, setHotelId] = useState()
+  const [hotelId, setHotelId] = useState();
   const navigat = useNavigate();
   // const filteredRooms = roomList.filter((room) => room.hotel_id === id);
   const { id } = useParams();
@@ -20,7 +21,7 @@ function HotelDetails(props) {
       .get(`http://localhost:5500/hotels/${id}`)
       .then((response) => {
         setHotel(response.data);
-        setHotelId(response.data[0].hotel_id)
+        setHotelId(response.data[0].hotel_id);
         console.log(response.data);
       })
       .catch((error) => {
@@ -38,15 +39,21 @@ function HotelDetails(props) {
           console.log(error.message);
         });
     }
-  }, [hotelId])
+  }, [hotelId]);
 
   function handleBookClick(id) {
-    props.userType == 'guest' ?
-      navigat('/login')
-      :
-      navigat(`/payment/${id}`)
-    console.log(id);
+    props.userType == "guest"
+      ? navigat(`/login/${hotelId}`)
+      : navigat(`/payment/${id}`);
+    console.log(hotelId);
   }
+  const renderRatingStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < rating; i++) {
+      stars.push(<FaStar key={i} className="inline text-yellow-400" />);
+    }
+    return stars;
+  };
   return (
     <>
       <div>
@@ -64,6 +71,7 @@ function HotelDetails(props) {
                   <p className="text-base sm:text-lg text-gray-100 dark:text-gray-400 mt-8">
                     {hotel.city}
                   </p>
+                  <div>{renderRatingStars(hotel.stars)}</div>
                 </div>
 
                 <img
@@ -87,7 +95,7 @@ function HotelDetails(props) {
                   <div class="w-full rounded-xl">
                     {/* <Carousel/> */}
                     <img
-                      class="w-full rounded-xl"
+                      class="rounded-xl max-h-48 w-[400px] "
                       src={room.room_img}
                       alt="Colors"
                     />

@@ -1,4 +1,4 @@
-html{
+html {
   scroll-behavior: smooth;
 }
 .content-div {
@@ -101,4 +101,20 @@ html{
   .form-select {
     padding-right: 0.75rem;
   }
+}
+
+.pvalidate {
+  display: none;
+}
+.pWrong {
+  display: block;
+  color: red;
+}
+.layer {
+  background-color: rgb(6, 6, 6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
